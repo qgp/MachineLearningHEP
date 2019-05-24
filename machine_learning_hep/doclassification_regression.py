@@ -19,23 +19,23 @@ import os.path
 import pandas as pd
 
 from sklearn.utils import shuffle
-from machine_learning_hep.general import createstringselection, filterdataframe_singlevar
-from machine_learning_hep.general import get_database_ml_gridsearch, filter_df_cand
-from machine_learning_hep.root import write_tree
-from machine_learning_hep.functions import create_mlsamples, do_correlation
-from machine_learning_hep.pca import getdataframe_standardised, get_pcadataframe_pca
-from machine_learning_hep.pca import plotvariance_pca
-from machine_learning_hep.models import getclf_scikit, getclf_xgboost, getclf_keras
-from machine_learning_hep.models import fit, savemodels, test, apply, decisionboundaries
-from machine_learning_hep.models import importanceplotall
-from machine_learning_hep.mlperformance import cross_validation_mse, cross_validation_mse_continuous
-from machine_learning_hep.mlperformance import plot_cross_validation_mse, plot_learning_curves
-# from machine_learning_hep.mlperformance import confusion, plot_overtraining
-from machine_learning_hep.mlperformance import precision_recall
-from machine_learning_hep.grid_search import do_gridsearch, read_grid_dict, perform_plot_gridsearch
-from machine_learning_hep.logger import get_logger
-from machine_learning_hep.optimization import study_signif
-from machine_learning_hep.efficiency import study_eff
+from general import createstringselection, filterdataframe_singlevar
+from general import get_database_ml_gridsearch, filter_df_cand
+from root import write_tree
+from functions import create_mlsamples, do_correlation
+from pca import getdataframe_standardised, get_pcadataframe_pca
+from pca import plotvariance_pca
+from models import getclf_scikit, getclf_xgboost, getclf_keras
+from models import fit, savemodels, test, apply, decisionboundaries
+from models import importanceplotall
+from mlperformance import cross_validation_mse, cross_validation_mse_continuous
+from mlperformance import plot_cross_validation_mse, plot_learning_curves
+# from mlperformance import confusion, plot_overtraining
+from mlperformance import precision_recall
+from grid_search import do_gridsearch, read_grid_dict, perform_plot_gridsearch
+from logger import get_logger
+from optimization import study_signif
+from efficiency import study_eff
 DATA_PREFIX = os.path.expanduser("~/.machine_learning_hep")
 
 
@@ -141,6 +141,10 @@ def doclassification_regression(run_config, data, model_config, case, binmin, bi
         df_data = pd.read_pickle(filedata)
         df_data = filterdataframe_singlevar(df_data, var_binning, binmin, binmax)
         df_mc = filterdataframe_singlevar(df_mc, var_binning, binmin, binmax)
+        df_mc = df_mc.reset_index(drop=True)
+        df_data = df_data.reset_index(drop=True)
+        print(df_mc)
+        print(df_data)
 
         _, df_ml_test, df_sig_train, df_bkg_train, _, _, \
         x_train, y_train, x_test, y_test = \
