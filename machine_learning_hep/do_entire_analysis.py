@@ -18,11 +18,11 @@ main script for doing data processing, machine learning and analysis
 
 import os
 import yaml
-from machine_learning_hep.doskimming import conversion, merging, merging_period, skim
-from machine_learning_hep.doclassification_regression import doclassification_regression
-from machine_learning_hep.doanalysis import doanalysis
-from machine_learning_hep.extractmasshisto import extractmasshisto
-from machine_learning_hep.efficiencyan import analysis_eff
+from doskimming import conversion, merging, merging_period, skim
+from doclassification_regression import doclassification_regression
+from doanalysis import doanalysis
+from extractmasshisto import extractmasshisto
+from efficiencyan import analysis_eff
 
 def do_entire_analysis(): # pylint: disable=too-many-locals, too-many-statements, too-many-branches
 

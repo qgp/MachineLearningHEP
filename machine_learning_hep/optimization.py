@@ -15,15 +15,15 @@
 """
 Methods to: study expected significance
 """
+import yaml
 from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from ROOT import TH1F, TF1, TFile, gROOT  # pylint: disable=import-error,no-name-in-module
 from machine_learning_hep.logger import get_logger
-from machine_learning_hep.general import get_database_ml_parameters
 from machine_learning_hep.general import filterdataframe_singlevar, filter_df_cand
-from machine_learning_hep.efficiency import calc_eff, calc_eff_acc
+from efficiency import calc_eff, calc_eff_acc
 
 def calc_bkg(df_bkg, name, num_steps, fit_region, bin_width, sig_region, save_fit, out_dir):
     """
@@ -178,8 +178,9 @@ def study_signif(case, names, bin_lim, file_mc_gen, file_data_evt_ml, file_data_
     logger = get_logger()
     gROOT.SetBatch(True)
     gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
+    with open("data/database_ml_parameters.yml", 'r') as param_config:
+        gen_dict = yaml.load(param_config)["LctopK0sPbPbCen3050"]
 
-    gen_dict = get_database_ml_parameters()[case]
     mass = gen_dict["mass"]
     mass_fit_lim = gen_dict['mass_fit_lim']
     bin_width = gen_dict['bin_width']

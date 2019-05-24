@@ -177,7 +177,8 @@ def study_eff(case, names, suffix, plot_dir, df_ml_test):
         plot_dir: directory for plots
         df_ml_test: pandas dataframe cointaining test set candidates
     """
-    gen_dict = get_database_ml_parameters()[case]
+    with open("data/database_ml_parameters.yml", 'r') as param_config:
+        gen_dict = yaml.load(param_config)
     split_prompt_fd = gen_dict['efficiency']['split_prompt_FD']
     num_steps = gen_dict['efficiency']['num_steps']
 
