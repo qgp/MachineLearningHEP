@@ -31,6 +31,8 @@ def create_mlsamples(df_sig, df_bkg, sel_opt_sig, main_dict, sel_bkg, rnd_shuffl
     df_bkg = shuffle(df_bkg, random_state=rnd_shuffle)
     df_ml_train, df_ml_test = prep_mlsamples(df_sig, df_bkg, var_signal, nevt_sig,
                                              nevt_bkg, test_frac, rnd_splt)
+    df_ml_train = df_ml_train.reset_index(drop=True)
+    df_ml_test = df_ml_test.reset_index(drop=True)
     df_sig_train, df_bkg_train = split_df_sigbkg(df_ml_train, var_signal)
     df_sig_test, df_bkg_test = split_df_sigbkg(df_ml_test, var_signal)
     logger = get_logger()
@@ -42,9 +44,9 @@ def create_mlsamples(df_sig, df_bkg, sel_opt_sig, main_dict, sel_bkg, rnd_shuffl
     x_test = df_ml_test[var_training]
     y_test = df_ml_test[var_signal]
 
+    print(df_sig_train)
     return df_ml_train, df_ml_test, df_sig_train, df_bkg_train, df_sig_test, df_bkg_test, \
         x_train, y_train, x_test, y_test
-
 
 def do_correlation(df_sig_train, df_bkg_train, var_all, var_corr_x, var_corr_y, plotdir):
     imageIO_vardist = vardistplot(df_sig_train, df_bkg_train, var_all, plotdir)
