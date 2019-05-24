@@ -61,6 +61,7 @@ def skimmer(filein, filevt, fileout, skimming_sel, var_evt_match,
         df = df[np.array(isselacc, dtype=bool)]
     if sel_cent is not None:
         df = df.query(sel_cent)
+    df = df.reset_index(drop=True)
     df.to_pickle(fileout)
 
 def flattenallpickle(chunk, chunkout, treenamein, var_all, skimming_sel,
