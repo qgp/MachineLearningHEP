@@ -27,4 +27,6 @@ rm -rf plots_*
 rm -rf output_*
 rm *.json 
 rm *.h5
-
+rm -rf mcpkl* datapkl* *pklanalysis*
+rm mlplot*/*.*
+rm mlout*/*.*

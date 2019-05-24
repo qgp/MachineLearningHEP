@@ -31,6 +31,7 @@ mergingperiods:
     activate: true
   data:
     activate: true
+
 ml_study:   
   activate: false
   applytodatamc: true
@@ -77,13 +78,13 @@ analysis:
     nmaxchunks: 300
     maxfiles: -1
     std:
-      usecustom: true
-      doapply: true
-      domass: true
-      doeffhist: true
+      usecustom: false
+      doapply: false
+      domass: false
+      doeffhist: false
     ml:
-      doapply: true
-      domass: true     
+      doapply: false
+      domass: false     
       doeffhist: false
   modelname: xgboost
   modelbinmin: [4]
