@@ -91,15 +91,15 @@ LcpKpipp_pt_2016:
       seedmerge: [12,12] #list of periods
       period: [LHC16pp_kl,LHC16pp_deghjop] #list of periods
       unmerged_tree_dir: [/data2/HeavyFlavour/pp_data_2016/04-07-2019/68_20190629-1511/merged,
-                          /data2/HeavyFlavour/pp_data_2016/30-06-2019/69_20190629-1548/merged]
-      pkl: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/datapkl,/data2/HeavyFlavour/LcpKpipp_pt2016_de/datapkl] #list of periods
-      pkl_skimmed: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/datapklsk,/data2/HeavyFlavour/LcpKpipp_pt2016_de/datapklsk] #list of periods
-      pkl_skimmed_merge_for_ml: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/datapklskML,/data2/HeavyFlavour/LcpKpipp_pt2016_de/datapklskML] #list of periods
-      pkl_skimmed_merge_for_ml_all: /data2/HeavyFlavour/LcpKpipp_pt2016/datapklskMLallperiods
-      pkl_evtcounter_all: /data2/HeavyFlavour/LcpKpipp_pt2016/datapklevtHC16ppallperiods
+                          /data2/HeavyFlavour/pp_data_2016/04-07-2019/68_20190629-1511/merged]
+      pkl: [LcpKpipp_pt2016_kl_perf/datapkl,LcpKpipp_pt2016_de_perf/datapkl] #list of periods
+      pkl_skimmed: [LcpKpipp_pt2016_kl_perf/datapklsk,LcpKpipp_pt2016_de_perf/datapklsk] #list of periods
+      pkl_skimmed_merge_for_ml: [LcpKpipp_pt2016_kl_perf/datapklskML,LcpKpipp_pt2016_de_perf/datapklskML] #list of periods
+      pkl_skimmed_merge_for_ml_all: LcpKpipp_pt2016_perf/datapklskMLallperiods
+      pkl_evtcounter_all: LcpKpipp_pt2016_perf/datapklevtHC16ppallperiods
     mc:
       nperiods: 2
-      nprocessesparallel: 50
+      nprocessesparallel: 30
       maxfiles : [-1,-1] #list of periods
       chunksizeunp : [1000,1000] #list of periods
       chunksizeskim: [1000,1000] #list of periods
@@ -108,13 +108,13 @@ LcpKpipp_pt_2016:
       period: [LHC17j4a_kl,LHC17j4a_deghjop] #list of periods
       unmerged_tree_dir: [/data2/HeavyFlavour/pp_MC_2016/01-07-2019/73_20190629-1619/unmerged/,
                           /data2/HeavyFlavour/pp_MC_2016/01-07-2019/74_20190629-1619/unmerged/]
-      pkl: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcpkl,
-            /data2/HeavyFlavour/LcpKpipp_pt2016_de/mcpkl] #list of periods
-      pkl_skimmed: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcpklsk,
-                    /data2/HeavyFlavour/LcpKpipp_pt2016_de/mcpklsk] #list of periods
-      pkl_skimmed_merge_for_ml: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcpklskML,/data2/HeavyFlavour/LcpKpipp_pt2016_de/mcpklskML] #list of periods
-      pkl_skimmed_merge_for_ml_all: /data2/HeavyFlavour/LcpKpipp_pt2016/mcpklskMLallperiods
-      pkl_evtcounter_all: /data2/HeavyFlavour/LcpKpipp_pt2016/mcpklevtHC16ppallperiods
+      pkl: [LcpKpipp_pt2016_kl_perf/mcpkl,
+            LcpKpipp_pt2016_de_perf/mcpkl] #list of periods
+      pkl_skimmed: [LcpKpipp_pt2016_kl_perf/mcpklsk,
+                    LcpKpipp_pt2016_de_perf/mcpklsk] #list of periods
+      pkl_skimmed_merge_for_ml: [LcpKpipp_pt2016_kl_perf/mcpklskML,LcpKpipp_pt2016_de_perf/mcpklskML] #list of periods
+      pkl_skimmed_merge_for_ml_all: LcpKpipp_pt2016_perf/mcpklskMLallperiods
+      pkl_evtcounter_all: LcpKpipp_pt2016_perf/mcpklevtHC16ppallperiods
   ml:
     nbkg: 1000000
     nsig: 1000000
@@ -130,8 +130,8 @@ LcpKpipp_pt_2016:
     binmax: [2,3,4,5,6,8,10,12,24] #list of bins
     mltype: BinaryClassification
     ncorescrossval: 10 
-    mlplot: /data2/HeavyFlavour/LcpKpipp_pt2016/mlplot # to be removed
-    mlout: /data2/HeavyFlavour/LcpKpipp_pt2016/mlout # to be removed
+    mlplot: LcpKpipp_pt2016_perf/mlplot # to be removed
+    mlout: LcpKpipp_pt2016_perf/mlout # to be removed
 
     opt:
       filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions
@@ -147,13 +147,13 @@ LcpKpipp_pt_2016:
       raahp: [1,1,1,1,1,1,1,1,1]     # list of bins
   analysis:
     data:
-      pkl_skimmed_dec: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/datapklskdec,/data2/HeavyFlavour/LcpKpipp_pt2016_de/datapklskdec] #list of periods
-      pkl_skimmed_decmerged: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/datapklskdecmerged,/data2/HeavyFlavour/LcpKpipp_pt2016_de/datapklskdecmerged] #list of periods
-      results: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/dataanalysis,/data2/HeavyFlavour/LcpKpipp_pt2016_de/dataanalysis] #list of periods
+      pkl_skimmed_dec: [LcpKpipp_pt2016_kl_perf/datapklskdec,LcpKpipp_pt2016_de_perf/datapklskdec] #list of periods
+      pkl_skimmed_decmerged: [LcpKpipp_pt2016_kl_perf/datapklskdecmerged,LcpKpipp_pt2016_de_perf/datapklskdecmerged] #list of periods
+      results: [LcpKpipp_pt2016_kl_perf/dataanalysis,LcpKpipp_pt2016_de_perf/dataanalysis] #list of periods
     mc:
-      pkl_skimmed_dec: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcpklskdec,/data2/HeavyFlavour/LcpKpipp_pt2016_de/mcpklskdec] #list of periods
-      pkl_skimmed_decmerged: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcpklskdecmerged,/data2/HeavyFlavour/LcpKpipp_pt2016_de/mcpklskdecmerged] #list of periods
-      results: [/data2/HeavyFlavour/LcpKpipp_pt2016_kl/mcanalysis,/data2/HeavyFlavour/LcpKpipp_pt2016_de/mcanalysis] #list of periods
+      pkl_skimmed_dec: [LcpKpipp_pt2016_kl_perf/mcpklskdec,LcpKpipp_pt2016_de_perf/mcpklskdec] #list of periods
+      pkl_skimmed_decmerged: [LcpKpipp_pt2016_kl_perf/mcpklskdecmerged, LcpKpipp_pt2016_de_perf/mcpklskdecmerged] #list of periods
+      results: [LcpKpipp_pt2016_kl_perf/mcanalysis,LcpKpipp_pt2016_de_perf/mcanalysis] #list of periods
     modelname: xgboost
     modelsperptbin: [xgboost_classifierLcpKpipp_pt_2016_dfselection_pt_cand_1.0_2.0.sav,
                      xgboost_classifierLcpKpipp_pt_2016_dfselection_pt_cand_2.0_3.0.sav,

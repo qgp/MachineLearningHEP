@@ -24,6 +24,8 @@ import random as rd
 import uproot
 import pandas as pd
 import numpy as np
+import time
+from root_pandas import read_root
 from root_numpy import fill_hist # pylint: disable=import-error, no-name-in-module
 from ROOT import TFile, TH1F, TCanvas  # pylint: disable=import-error, no-name-in-module
 from machine_learning_hep.selectionutils import selectfidacc
@@ -209,57 +211,80 @@ class Processer: # pylint: disable=too-many-instance-attributes
         self.s_presel_gen_eff = datap["analysis"]['presel_gen_eff']
 
     def unpack(self, file_index):
-        treeevtorig = uproot.open(self.l_root[file_index])[self.n_treeevt]
-        dfevtorig = treeevtorig.pandas.df(branches=self.v_evt)
-        dfevtorig = selectdfrunlist(dfevtorig, self.runlist, "run_number")
-        dfevtorig = selectdfquery(dfevtorig, self.s_cen_unp)
-        dfevtorig = dfevtorig.reset_index(drop=True)
-        pickle.dump(dfevtorig, openfile(self.l_evtorig[file_index], "wb"), protocol=4)
-        dfevt = selectdfquery(dfevtorig, self.s_good_evt_unp)
-        dfevt = dfevt.reset_index(drop=True)
-        pickle.dump(dfevt, openfile(self.l_evt[file_index], "wb"), protocol=4)
-
-        treereco = uproot.open(self.l_root[file_index])[self.n_treereco]
-        dfreco = treereco.pandas.df(branches=self.v_all)
-        dfreco = selectdfrunlist(dfreco, self.runlist, "run_number")
-        dfreco = selectdfquery(dfreco, self.s_reco_unp)
-        dfreco = pd.merge(dfreco, dfevt, on=self.v_evtmatch)
-        isselacc = selectfidacc(dfreco.pt_cand.values, dfreco.y_cand.values)
-        dfreco = dfreco[np.array(isselacc, dtype=bool)]
-        if self.b_trackcuts is not None:
-            dfreco = filter_bit_df(dfreco, self.v_bitvar, self.b_trackcuts)
-        dfreco[self.v_isstd] = np.array(tag_bit_df(dfreco, self.v_bitvar,
+        start = time.time()
+        print('up to 1', file_index, time.time() - start)
+        with uproot.open(self.l_root[file_index]) as forig:
+            dfevtorig = forig[self.n_treeevt]
+            print('up to 2', file_index, time.time() - start)
+            dfevtorig = selectdfrunlist(dfevtorig, self.runlist, "run_number")
+            dfevtorig = selectdfquery(dfevtorig, self.s_cen_unp)
+            dfevtorig = dfevtorig.reset_index(drop=True)
+            print('up to 3', file_index, time.time() - start)
+            with openfile(self.l_evtorig[file_index], "wb") as f:
+                pickle.dump(dfevtorig, f, protocol=4)
+            print('up to 4', file_index, time.time() - start)
+            dfevt = selectdfquery(dfevtorig, self.s_good_evt_unp)
+            dfevt = dfevt.reset_index(drop=True)
+            print('up to 5', file_index, time.time() - start)
+            with openfile(self.l_evt[file_index], "wb") as f:
+                pickle.dump(dfevt, f, protocol=4)
+            print('up to 6', file_index, time.time() - start)
+    
+            dfreco = forig[self.n_treereco]
+            print('up to 7', file_index, time.time() - start)
+            dfreco = treereco.pandas.df(branches=self.v_all)
+            print('up to 7a', file_index, time.time() - start)
+            dfreco = selectdfrunlist(dfreco, self.runlist, "run_number")
+            print('up to 7b', file_index, time.time() - start)
+            dfreco = selectdfquery(dfreco, self.s_reco_unp)
+            print('up to 7c', file_index, time.time() - start)
+            dfreco = pd.merge(dfreco, dfevt, on=self.v_evtmatch)
+            print('up to 8', file_index, time.time() - start)
+            isselacc = selectfidacc(dfreco.pt_cand.values, dfreco.y_cand.values)
+            dfreco = dfreco[np.array(isselacc, dtype=bool)]
+            print('up to 9', file_index, time.time() - start)
+            if self.b_trackcuts is not None:
+                dfreco = filter_bit_df(dfreco, self.v_bitvar, self.b_trackcuts)
+            dfreco[self.v_isstd] = np.array(tag_bit_df(dfreco, self.v_bitvar,
                                                    self.b_std), dtype=int)
-        dfreco = dfreco.reset_index(drop=True)
-        if self.mcordata == "mc":
-            dfreco[self.v_ismcsignal] = np.array(tag_bit_df(dfreco, self.v_bitvar,
-                                                            self.b_mcsig), dtype=int)
-            dfreco[self.v_ismcprompt] = np.array(tag_bit_df(dfreco, self.v_bitvar,
-                                                            self.b_mcsigprompt), dtype=int)
-            dfreco[self.v_ismcfd] = np.array(tag_bit_df(dfreco, self.v_bitvar,
-                                                        self.b_mcsigfd), dtype=int)
-            dfreco[self.v_ismcbkg] = np.array(tag_bit_df(dfreco, self.v_bitvar,
-                                                         self.b_mcbkg), dtype=int)
-        pickle.dump(dfreco, openfile(self.l_reco[file_index], "wb"), protocol=4)
-
-        if self.mcordata == "mc":
-            treegen = uproot.open(self.l_root[file_index])[self.n_treegen]
-            dfgen = treegen.pandas.df(branches=self.v_gen)
-            dfgen = selectdfrunlist(dfgen, self.runlist, "run_number")
-            dfgen = pd.merge(dfgen, dfevtorig, on=self.v_evtmatch)
-            dfgen = selectdfquery(dfgen, self.s_gen_unp)
-            dfgen[self.v_isstd] = np.array(tag_bit_df(dfgen, self.v_bitvar,
-                                                      self.b_std), dtype=int)
-            dfgen[self.v_ismcsignal] = np.array(tag_bit_df(dfgen, self.v_bitvar,
-                                                           self.b_mcsig), dtype=int)
-            dfgen[self.v_ismcprompt] = np.array(tag_bit_df(dfgen, self.v_bitvar,
-                                                           self.b_mcsigprompt), dtype=int)
-            dfgen[self.v_ismcfd] = np.array(tag_bit_df(dfgen, self.v_bitvar,
-                                                       self.b_mcsigfd), dtype=int)
-            dfgen[self.v_ismcbkg] = np.array(tag_bit_df(dfgen, self.v_bitvar,
-                                                        self.b_mcbkg), dtype=int)
-            dfgen = dfgen.reset_index(drop=True)
-            pickle.dump(dfgen, openfile(self.l_gen[file_index], "wb"), protocol=4)
+            dfreco = dfreco.reset_index(drop=True)
+            print('up to 10', file_index, time.time() - start)
+            if self.mcordata == "mc":
+                dfreco[self.v_ismcsignal] = np.array(tag_bit_df(dfreco, self.v_bitvar,
+                                                                self.b_mcsig), dtype=int)
+                dfreco[self.v_ismcprompt] = np.array(tag_bit_df(dfreco, self.v_bitvar,
+                                                                self.b_mcsigprompt), dtype=int)
+                dfreco[self.v_ismcfd] = np.array(tag_bit_df(dfreco, self.v_bitvar,
+                                                            self.b_mcsigfd), dtype=int)
+                dfreco[self.v_ismcbkg] = np.array(tag_bit_df(dfreco, self.v_bitvar,
+                                                             self.b_mcbkg), dtype=int)
+            with openfile(self.l_reco[file_index], "wb") as f:
+                pickle.dump(dfreco, f, protocol=4)
+            print('up to 11', file_index, time.time() - start)
+    
+            if self.mcordata == "mc":
+                treegen = uproot.open(self.l_root[file_index])[self.n_treegen]
+                dfgen = treegen.pandas.df(branches=self.v_gen)
+                dfgen = selectdfrunlist(dfgen, self.runlist, "run_number")
+                dfgen = pd.merge(dfgen, dfevtorig, on=self.v_evtmatch)
+                dfgen = selectdfquery(dfgen, self.s_gen_unp)
+                dfgen[self.v_isstd] = np.array(tag_bit_df(dfgen, self.v_bitvar,
+                                                          self.b_std), dtype=int)
+                dfgen[self.v_ismcsignal] = np.array(tag_bit_df(dfgen, self.v_bitvar,
+                                                               self.b_mcsig), dtype=int)
+                dfgen[self.v_ismcprompt] = np.array(tag_bit_df(dfgen, self.v_bitvar,
+                                                               self.b_mcsigprompt), dtype=int)
+                dfgen[self.v_ismcfd] = np.array(tag_bit_df(dfgen, self.v_bitvar,
+                                                           self.b_mcsigfd), dtype=int)
+                dfgen[self.v_ismcbkg] = np.array(tag_bit_df(dfgen, self.v_bitvar,
+                                                            self.b_mcbkg), dtype=int)
+                dfgen = dfgen.reset_index(drop=True)
+                pickle.dump(dfgen, openfile(self.l_gen[file_index], "wb"), protocol=4)
+        #print("finish process", file_index, self.l_root[file_index])
+#        treereco.Close()
+#        treeevtorig.Close()
+        stop = time.time()
+        print('processed period in time', file_index, stop - start)
 
     def skim(self, file_index):
         try:
@@ -299,14 +324,25 @@ class Processer: # pylint: disable=too-many-instance-attributes
             pickle.dump(dfrecoskml, openfile(self.mptfiles_recoskmldec[ipt][file_index], "wb"),
                         protocol=4)
     def parallelizer(self, function, argument_list, maxperchunk):
-        chunks = [argument_list[x:x+maxperchunk] \
-                  for x in range(0, len(argument_list), maxperchunk)]
-        for chunk in chunks:
-            print("Processing new chunck size=", maxperchunk)
-            pool = mp.Pool(self.p_maxprocess)
-            _ = [pool.apply_async(function, args=chunk[i]) for i in range(len(chunk))]
+        print(len(argument_list))
+        with mp.Pool(self.p_maxprocess) as pool:
+            _ = [pool.apply_async(function, args=chunk) for chunk in argument_list]
             pool.close()
+            print("about to join")
             pool.join()
+            print("after join")
+
+#        chunks = [argument_list[x:x+maxperchunk] \
+#                  for x in range(0, len(argument_list), maxperchunk)]
+#        print(len(argument_list))
+#        pool = mp.Pool(self.p_maxprocess)
+#        for chunk in chunks:
+#            print("Processing new chunck size=", maxperchunk)
+#            _ = [pool.apply_async(function, args=chunk[i]) for i in range(len(chunk))]
+#        pool.close()
+#        print("about to join")
+#        pool.join()
+#        print("after join")
 
     def process_unpack_par(self):
         print("doing unpacking", self.mcordata, self.period)

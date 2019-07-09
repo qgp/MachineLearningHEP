@@ -1,10 +1,10 @@
-case: LcpK0s_multiplicity_test
+case: LcpKpipp_pt_2016
 download:
   alice:
     activate: false
 conversion:
   mc: 
-    activate: true 
+    activate: true
   data:
     activate: true
 skimming: 
