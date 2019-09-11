@@ -23,7 +23,7 @@ import numpy as np
 from root_numpy import hist2array, array2hist
 from ROOT import TFile, TH1F, TCanvas
 from ROOT import gStyle, TLegend
-from ROOT import gROOT
+from ROOT import gROOT, gPad
 from ROOT import TStyle
 from ROOT import TLatex
 from machine_learning_hep.globalfitter import Fitter
@@ -629,6 +629,7 @@ class Analyzer:
         ctrigger = TCanvas('ctrigger', 'The Fit Canvas')
         ctrigger.SetCanvasSize(2100, 1000)
         ctrigger.Divide(2, 1)
+        heffs = []
         for i, _ in enumerate(triggerlist):
             ctrigger.cd(i+1)
             leg = TLegend(.5, .65, .7, .85)
@@ -644,7 +645,8 @@ class Analyzer:
             hden = filedata.Get(labelMB)
             if not heff or not hden:
                 continue
-            heff = heff.Clone()
+            heff = TH1F(heff)
+            heffs.append(heff)
             heff.SetName(heff.GetName() + "_new")
             heff.SetLineColor(i+1)
             heff.Divide(heff, hden, 1.0, 1.0, "B")
@@ -652,6 +654,7 @@ class Analyzer:
             heff.GetXaxis().SetTitle("offline %s" % varlist[i])
             heff.SetMinimum(0.)
             heff.GetYaxis().SetTitle("trigger efficiency")
+            heff.Print()
             heff.Draw("epsame")
             leg.AddEntry(heff, triggerlist[i], "LEP")
             leg.Draw()
@@ -663,6 +666,7 @@ class Analyzer:
         ccorrection.Divide(2, 1)
         for i, _ in enumerate(triggerlist):
             ccorrection.cd(i+1)
+            # gPad.SetLogy()
             leg = TLegend(.5, .65, .7, .85)
             leg.SetBorderSize(0)
             leg.SetFillColor(0)
@@ -682,6 +686,8 @@ class Analyzer:
             hratio.SetMinimum(0.)
             hratio.GetYaxis().SetTitle("ratio %s/MB" % triggerlist[i])
             hratio.Draw("epsame")
+            hden.SetLineColor(i+2)
+            hden.Draw("epsame")
             leg.AddEntry(hratio, triggerlist[i], "LEP")
             leg.Draw()
         ccorrection.SaveAs(self.make_file_path(self.d_valevtdata, "ccorrection", "eps", \

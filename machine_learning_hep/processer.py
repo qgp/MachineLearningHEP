@@ -362,6 +362,10 @@ class Processer: # pylint: disable=too-many-instance-attributes
 
     def process_histomass(self):
         myfile = TFile.Open(self.n_filemass, "recreate")
+        apply_weights = self.datap["analysis"][self.typean]["triggersel"]["weights"]
+        if apply_weights != None:
+            filenorm = TFile.Open("correction.root", "read")
+            hnorm = filenorm.Get("hnorm_" + apply_weights[0] + "_" + apply_weights[1])
 
         for ipt in range(self.p_nptfinbins):
             bin_id = self.bin_matching[ipt]
@@ -382,13 +386,7 @@ class Processer: # pylint: disable=too-many-instance-attributes
                                  self.p_mass_fit_lim[0], self.p_mass_fit_lim[1])
                 df_bin = seldf_singlevar(df, self.v_var2_binning,
                                          self.lvar2_binmin[ibin2], self.lvar2_binmax[ibin2])
-                weights = None
-                #apply_weights = self.datap["analysis"][self.typean]["triggersel"]["weights"]
-                #if apply_weights is not None:
-                #    filenorm = TFile.Open("norm.root", "read")
-                #    hnorm = filenorm.Get("hnorm_" + apply_weights[0] + "_" + apply_weights[1])
-                #    weights = [hnorm.GetBinContent(hnorm.FindBin(_bin)) \
-                #               for _bin in df_bin[apply_weights[0]]]
+                weights = [hnorm.GetBinContent(hnorm.FindBin(_bin)) for _bin in df_bin[apply_weights[0]]] if apply_weights else None
                 fill_hist(h_invmass, df_bin.inv_mass, weights=weights)
                 myfile.cd()
                 h_invmass.Write()
