@@ -216,11 +216,11 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                 h_effkine_gen = self._build_effkine(
                     rfile.Get(f'h_effkine_{cat}_gen_nocuts_fPt'),
                     rfile.Get(f'h_effkine_{cat}_gen_cut_fPt'))
-                self._save_hist(h_effkine_gen, f'eff/h_effkine-ptjet-pthf_{cat}_gen.png', 'texte')
+                self._save_hist(h_effkine_gen, f'eff/h_effkine-ptjet-pthf_{cat}_gen.png', 'text')
                 h_effkine_det = self._build_effkine(
                     rfile.Get(f'h_effkine_{cat}_det_nocuts_fPt'),
                     rfile.Get(f'h_effkine_{cat}_det_cut_fPt'))
-                self._save_hist(h_effkine_det, f'eff/h_effkine-ptjet-pthf_{cat}_det.png', 'texte')
+                self._save_hist(h_effkine_det, f'eff/h_effkine-ptjet-pthf_{cat}_det.png', 'text')
 
                 h_in = h_gen[cat].Clone()
                 self._save_hist(project_hist(h_in, [1], {}), f'eff/h_pthf_{cat}_gen.png')
@@ -884,7 +884,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                 h_effkine_gen = self._build_effkine(
                     rfile.Get(f'h_effkine_np_gen_nocuts_{var}'),
                     rfile.Get(f'h_effkine_np_gen_cut_{var}'))
-                self._save_hist(h_effkine_gen, f'fd/h_effkine-ptjet-{var}_np_gen.png', 'texte')
+                self._save_hist(h_effkine_gen, f'fd/h_effkine-ptjet-{var}_np_gen.png', 'text')
 
                 # ROOT complains about different bin limits because fN is 0 for the histogram from file, ROOT bug?
                 ensure_sumw2(h_fd_gen)
@@ -904,7 +904,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                 h_effkine_det = self._build_effkine(
                     rfile.Get(f'h_effkine_np_det_nocuts_{var}'),
                     rfile.Get(f'h_effkine_np_det_cut_{var}'))
-                self._save_hist(h_effkine_det, f'fd/h_effkine-ptjet-{var}_np_det.png','texte')
+                self._save_hist(h_effkine_det, f'fd/h_effkine-ptjet-{var}_np_det.png','text')
                 hfeeddown_det.Divide(h_effkine_det)
                 self._save_hist(hfeeddown_det, f'fd/h_ptjet-{var}_feeddown_det_kineeffscaled.png')
 
@@ -979,7 +979,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
             h_effkine_det = self._build_effkine(
                 rfile.Get(f'h_effkine_pr_det_nocuts_{var}{suffix}'),
                 rfile.Get(f'h_effkine_pr_det_cut_{var}{suffix}'))
-            self._save_hist(h_effkine_det, f'uf/h_effkine-ptjet-{var}_pr_det_{mcordata}.png', 'texte')
+            self._save_hist(h_effkine_det, f'uf/h_effkine-ptjet-{var}_pr_det_{mcordata}.png', 'text')
 
             fh_unfolding_input = hist.Clone('fh_unfolding_input')
             if get_dim(fh_unfolding_input) != get_dim(h_effkine_det):
@@ -991,7 +991,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
             h_effkine_gen = self._build_effkine(
                 rfile.Get(f'h_effkine_pr_gen_nocuts_{var}{suffix}'),
                 rfile.Get(f'h_effkine_pr_gen_cut_{var}{suffix}'))
-            self._save_hist(h_effkine_gen, f'uf/h_effkine-ptjet-{var}_pr_gen_{mcordata}.png', 'texte')
+            self._save_hist(h_effkine_gen, f'uf/h_effkine-ptjet-{var}_pr_gen_{mcordata}.png', 'text')
 
             # TODO: move, has nothing to do with unfolding
             if mcordata == 'mc':
