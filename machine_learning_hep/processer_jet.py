@@ -240,7 +240,7 @@ class ProcesserJets(Processer):
         levels_effkine = ['gen', 'det']
         cuts = ['nocuts', 'cut']
         observables = self.cfg('observables', [])
-        observables.update({'fPt': {}})
+        observables.update({'fPt': {'label': 'p_{T}^{HF} (GeV/#it{c})'}})
         h_eff = {(cat, level): create_hist(f'h_ptjet-pthf_{cat}_{level}',
                                            ';p_{T}^{jet} (GeV/#it{c});p_{T}^{HF} (GeV/#it{c})',
                                            self.binarrays_ptjet['fPt'], self.binarray_pthf)
@@ -259,9 +259,10 @@ class ProcesserJets(Processer):
         # TODO: derive bins from response histogram
         h_effkine = {(cat, level, cut, var):
                         create_hist(f'h_effkine_{cat}_{level}_{cut}_{var}',
-                                    f";p_{{T}}^{{jet}} (GeV/#it{{c}});{var}",
+                                    f";p_{{T}}^{{jet}} (GeV/#it{{c}});{var_spec['label']}",
                                     self.binarrays_ptjet[var], self.binarrays_obs[var])
-                        for var, level, cat, cut in itertools.product(observables, levels_effkine, cats, cuts)
+                        for (var, var_spec), level, cat, cut
+                        in itertools.product(observables.items(), levels_effkine, cats, cuts)
                         if not '-' in var}
         h_mctruth = {
             (cat, var): create_hist(
