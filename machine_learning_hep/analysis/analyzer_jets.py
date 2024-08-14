@@ -76,6 +76,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
         self.h_effnew_ptjet_pthf = {'pr': None, 'np': None}
         self.h_effnew_pthf = {'pr': None, 'np': None}
         self.hfeeddown_det = { 'mc': {}, 'data': {}}
+        self.h_reflcorr = create_hist('h_reflcorr', ';p_{T}^{HF} (GeV/#it{c})', self.bins_candpt)
         self.n_events = {}
         self.n_colls = {}
 
@@ -643,6 +644,9 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
             scale_bkg = area_bkg_sig / area_bkg_side if mcordata == 'data' else 1.
             corr = area_sig_sig / (area_sig_sig + area_refl_sig - area_refl_side * scale_bkg)
             self.logger.info('Correcting %s-%i for reflections with factor %g', mcordata, ipt, corr)
+            self.logger.info('areas: %g, %g, %g, %g; bkgscale: %g',
+                             area_sig_sig, area_refl_sig, area_refl_sidel, area_refl_sider, scale_bkg)
+            self.h_reflcorr.SetBinContent(ipt + 1, corr)
             fh_subtracted.Scale(corr)
 
         pdf_sig = self.roows[ipt].pdf('sig')
@@ -671,6 +675,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                         axes_proj = list(range(get_dim(fh)))
                         axes_proj.remove(2)
                         fh_sub = []
+                        self.h_reflcorr.Reset()
                         for ipt in range(self.nbins):
                             h_in = project_hist(fh, axes_proj, {2: (ipt+1, ipt+1)})
                             ensure_sumw2(h_in)
@@ -698,6 +703,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                                 self._correct_efficiency(h, ipt)
                             fh_sub.append(h)
                         fh_sum = sum_hists(fh_sub)
+                        self._save_hist(self.h_reflcorr, f'h_reflcorr-pthf{label}_reflcorr_{mcordata}.png')
                         self._save_hist(fh_sum, f'h_ptjet{label}_{method}_effscaled_{mcordata}.png')
 
                         if get_dim(fh_sum) > 1:
