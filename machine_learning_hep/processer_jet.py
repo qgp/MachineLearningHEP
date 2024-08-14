@@ -334,7 +334,7 @@ class ProcesserJets(Processer):
                 else:
                     df_mcana, _ = self.split_df(dfgen[cat], self.cfg('frac_mcana', .2))
                 if f := self.cfg('closure.exclude_feeddown_gen'):
-                    self.logger.info('excluding feeddown gen')
+                    self.logger.debug('excluding feeddown gen')
                     dfquery(df_mcana, f, inplace=True)
                 fill_hist(h_mctruth[(cat, var)], df_mcana[['fJetPt_gen', 'fPt_gen', f'{var}_gen']])
 
