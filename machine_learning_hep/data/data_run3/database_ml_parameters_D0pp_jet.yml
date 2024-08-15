@@ -249,8 +249,11 @@ D0jet_pp:
       seedmerge: [12] #list of periods
       period: [LHC22o] #list of periods
       select_period: [1]
-      # prefix_dir: /data2/MLhep/real/train_235436/
-      prefix_dir: /data2/MLhep/real/train_240309/
+      prefix_dir: /data2/MLhep/real/train_240309/ # Andrea's model
+      # prefix_dir: /data2/MLhep/real/train_245508/ # pass7
+      # prefix_dir: /data2/MLhep/real/train_245509/ # no TOF
+      # prefix_dir: /data2/MLhep/real/train_245510/ # no PID
+      # prefix_dir: /data2/MLhep/real/train_245511/ # full PID
       unmerged_tree_dir: [/alice/] #list of periods
       pkl: ['${USER}/d0jet/pkl'] #list of periods
       pkl_skimmed: ['${USER}/d0jet/pklsk'] #list of periods
@@ -267,8 +270,10 @@ D0jet_pp:
       seedmerge: [12] #list of periods
       period: [LHC24d3a] #list of periods
       select_period: [1]
-      # prefix_dir: /data2/MLhep/sim/train_235437/
-      prefix_dir: /data2/MLhep/sim/train_239774/
+      prefix_dir: /data2/MLhep/sim/train_239774/ # Andrea's model
+      # prefix_dir: /data2/MLhep/sim/train_244893/ # no TOF
+      # prefix_dir: /data2/MLhep/sim/train_244894/ # no PID
+      # prefix_dir: /data2/MLhep/sim/train_244895/ # full PID
       unmerged_tree_dir: [alice/]
       pkl: ['${USER}/d0jet/pkl'] #list of periods
       pkl_skimmed: ['${USER}/d0jet/pklsk'] #list of periods

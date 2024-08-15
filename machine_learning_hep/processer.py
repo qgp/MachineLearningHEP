@@ -538,7 +538,7 @@ class Processer: # pylint: disable=too-many-instance-attributes
             nfiles = len(self.mptfiles_recosk[ipt])
             if not nfiles:
                 print("There are no files to be merged")
-                sys.exit(1)
+                continue
             self.logger.info("Use merge fraction %g for pT bin %d",
                              self.p_frac_merge[ipt], ipt)
             ntomerge = int(nfiles * self.p_frac_merge[ipt])

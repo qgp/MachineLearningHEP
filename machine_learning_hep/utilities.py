@@ -166,8 +166,9 @@ def merge_method(listfiles, namemerged):
     """
     Merge dataframes from all files and write to single file
     """
-    df_merged = pd.concat(read_df(filename) for filename in listfiles)
-    write_df(df_merged, namemerged)
+    if len(listfiles) > 0:
+        df_merged = pd.concat(read_df(filename) for filename in listfiles)
+        write_df(df_merged, namemerged)
 
 
 def seldf_singlevar(dataframe, var, minval, maxval):
