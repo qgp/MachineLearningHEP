@@ -361,6 +361,7 @@ D0jet_pp:
       bins_ptjet: [5, 7, 15, 30, 50]
       bins_ptjet_eff: [2, 5, 7, 15, 30, 50, 70]
 
+      cand_collidx: fIndexHfD0CollBases
       sigmamb: 57.8e-3 #NB: multiplied by 1e12 before giving to HFPtSpectrum!
 
       # TODO: add separate binnings for MC and data

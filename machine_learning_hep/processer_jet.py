@@ -180,6 +180,10 @@ class ProcesserJets(Processer):
             df = df.loc[(df.fJetPt >= min(self.binarray_ptjet)) & (df.fJetPt < max(self.binarray_ptjet))]
             df = df.loc[(df.fPt >= min(self.bins_analysis[:,0])) & (df.fPt < max(self.bins_analysis[:,1]))]
 
+            if col_evtidx := self.cfg('cand_collidx'):
+                h = create_hist('h_ncand', ';N_{cand}', 20, 0., 20.)
+                fill_hist(h, df.groupby([col_evtidx]).size(), write=True)
+
             h = create_hist(
                 'h_mass-ptjet-pthf',
                 ';M (GeV/#it{c}^{2});p_{T}^{jet} (GeV/#it{c});p_{T}^{HF} (GeV/#it{c})',

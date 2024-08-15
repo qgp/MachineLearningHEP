@@ -98,7 +98,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
         canvas.SaveAs(f'fig/{self.case}/{self.typean}/{filename}')
 
 
-    def _save_hist(self, hist, filename, option = ''):
+    def _save_hist(self, hist, filename, option = '', logy = False):
         if not hist:
             self.logger.error('no histogram for <%s>', filename)
             # TODO: remove file if it exists?
@@ -107,6 +107,7 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
         if isinstance(hist, ROOT.TH1) and get_dim(hist) == 2 and len(option) == 0:
             option += 'texte'
         hist.Draw(option)
+        c.SetLogy(logy)
         self._save_canvas(c, filename)
         rfilename = filename.split('/')[-1]
         rfilename = rfilename.removesuffix('.png')
@@ -136,6 +137,9 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                 self._save_hist(project_hist(h, [0], {}), f'qa/h_mass_{mcordata}.png')
                 self._save_hist(project_hist(h, [1], {}), f'qa/h_ptjet_{mcordata}.png')
                 self._save_hist(project_hist(h, [2], {}), f'qa/h_ptcand_{mcordata}.png')
+
+                if h := rfile.Get('h_ncand'):
+                    self._save_hist(h, f'qa/h_ncand_{mcordata}.png', logy = True)
 
                 for var in self.observables['qa']:
                     if h := rfile.Get(f'h_mass-ptjet-pthf-{var}'):
