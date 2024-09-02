@@ -464,6 +464,7 @@ LcJet_pp:
       unfolding_iterations: 8 # used, maximum iteration
       unfolding_iterations_sel: 5 # used, selected iteration # systematics
 
+      fd_folding_method: 3d
       fd_root: '/data2/vkucera/powheg/trees_powheg_fd_F05_R05.root'
       fd_parquet: '/data2/jklein/powheg/Lc_powheg_fd_F05_R05.parquet'
 
