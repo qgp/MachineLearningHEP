@@ -564,7 +564,7 @@ D0Jet_pp:
               fn: 'SUM::sigrefl(frac_refl[0.,1.]*refl, sig)'
         - ptrange: [1., 2.]
           per_ptjet: true
-          range: [1.72, 2.02]
+          range: [1.75, 2.02]
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
@@ -572,64 +572,64 @@ D0Jet_pp:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
         - ptrange: [2., 3.]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
-          range: [1.72, 2.04]
+          range: [1.75, 2.04]
           components:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
         - ptrange: [3., 4.]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
-          range: [1.72, 2.06]
+          range: [1.75, 2.06]
           components:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
         - ptrange: [4., 5.]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
           # fix_params: ['mean', 'sigma_g1', 'frac_refl']
-          range: [1.72, 2.08]
+          range: [1.75, 2.08]
           components:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
         - ptrange: [5., 6.]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
-          range: [1.72, 2.10]
+          range: [1.75, 2.10]
           components:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
         - ptrange: [6., 8.]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
           fix_params_ptjet: ['mean', 'sigma_g1']
-          range: [1.72, 2.14]
+          range: [1.75, 2.14]
           components:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
-        - range: [1.72, 2.20]
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
+        - range: [1.75, 2.20]
           per_ptjet: true
           fix_params: ['frac_refl']
           free_params: ['sigma_g1']
@@ -638,7 +638,7 @@ D0Jet_pp:
             bkg:
               fn: 'Exponential::bkg(m, alpha[-100,0])'
             model:
-              fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+              fn: 'SUM::sum(frac[0.,.9]*sigrefl, bkg)'
 
       sidesub_per_ptjet: true
       sidesub:
