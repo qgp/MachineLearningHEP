@@ -85,7 +85,7 @@ class ProcesserJets(Processer):
                         self.binarrays_ptjet[level][v] = self.binarray_ptjet
         self.binarrays_obs['gen']['fPt'] = self.binarray_pthf
         self.binarrays_obs['det']['fPt'] = self.binarray_pthf
-        self.binarrays_ptjet['gen']['fPt'] = np.asarray(self.cfg('bins_ptjet_eff'), 'd')
+        self.binarrays_ptjet['gen']['fPt'] = np.asarray(self.cfg('bins_ptjet_eff_gen', self.cfg('bins_ptjet_eff')), 'd')
         self.binarrays_ptjet['det']['fPt'] = np.asarray(self.cfg('bins_ptjet_eff'), 'd')
 
 
@@ -233,7 +233,7 @@ class ProcesserJets(Processer):
                 h = create_hist(
                     f'h_mass-ptjet-pthf-{obs}',
                     f';M (GeV/#it{{c}}^{{2}});p_{{T}}^{{jet}} (GeV/#it{{c}});p_{{T}}^{{HF}} (GeV/#it{{c}});{obs}',
-                    self.binarray_mass, self.binarray_ptjet, self.binarray_pthf,
+                    self.binarray_mass, self.binarrays_ptjet['det'][obs], self.binarray_pthf,
                     *[self.binarrays_obs['det'][v] for v in var])
                 for i, v in enumerate(var):
                     get_axis(h, 3+i).SetTitle(self.cfg(f'observables.{v}.label', v))
