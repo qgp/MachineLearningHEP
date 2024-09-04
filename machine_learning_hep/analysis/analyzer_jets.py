@@ -1051,9 +1051,11 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
         h_cuts.Divide(h_nocuts)
         return h_cuts
 
-    def _build_response_matrix(self, h_response, h_eff = None):
+
+    def _build_response_matrix(self, h_response, h_eff = None, frac_flat = 0.):
         rm = ROOT.RooUnfoldResponse(
             project_hist(h_response, [0, 1], {}), project_hist(h_response, [2, 3], {}))
+        h_gen = project_hist(h_response, [2, 3], {})
         for hbin in itertools.product(
             enumerate(get_axis(h_response, 0).GetXbins(), 1),
             enumerate(get_axis(h_response, 1).GetXbins(), 1),
@@ -1066,8 +1068,12 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
             if np.isclose(eff, 0.):
                 self.logger.error('efficiency 0 for %s', hbin[4])
                 continue
-            for _ in range(int(n)):
-                rm.Fill(hbin[0][1], hbin[1][1], hbin[2][1], hbin[3][1], 1./eff)
+            if (cnt_gen := h_gen.GetBinContent(hbin[2][0], hbin[3][0])) > 0.:
+                fac = 1.
+                if frac_flat > 0.:
+                    fac += frac_flat * (1. / cnt_gen - 1.)
+                for _ in range(int(n)):
+                    rm.Fill(hbin[0][1], hbin[1][1], hbin[2][1], hbin[3][1], 1./eff * fac)
         # rm.Mresponse().Print()
         return rm
 
@@ -1096,7 +1102,8 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
                 self.logger.error('Response matrix for %s not available, cannot unfold', var + suffix)
                 return []
             response_matrix_pr = self._build_response_matrix(
-                h_response, self.hcandeff['pr'] if mcordata == 'data' else None)
+                h_response, self.hcandeff['pr'] if mcordata == 'data' else None,
+                self.cfg('unfolding_frac_flat', 0.))
             self._save_hist(response_matrix_pr.Hresponse(),
                             f'uf/h_ptjet-{var}-responsematrix_pr_lin_{mcordata}.png', 'colz')
 
