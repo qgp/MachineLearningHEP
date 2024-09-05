@@ -16,7 +16,7 @@ D0Jet_pp:
   mass: 1.86484
   sel_reco_unp: "fPt > 1."
   sel_reco_singletrac_unp: null
-  sel_gen_unp: "fPt > 1. and fPt < 10."
+  sel_gen_unp: "fPt > 1."
   sel_cen_unp: null
   sel_good_evt_unp: null
   # sel_reco_skim: ["mlBkgScore < 0.02", "mlBkgScore < 0.04", "mlBkgScore < 0.06", "mlBkgScore < .08", "mlBkgScore < 0.14", "mlBkgScore < 0.26", "mlBkgScore < 0.46", "mlBkgScore < 0.52"] # (sel_skim_binmin bins) FIXME: Update for new model.
@@ -285,7 +285,7 @@ D0Jet_pp:
       select_period: [1]
       prefix_dir: /data2/MLhep/sim/train_259456/ # full stats new
       # prefix_dir: /data2/MLhep/sim/train_257228/ # full stats
-      # prefix_dir: /data2/MLhep/sim/train_257227/ # 97 % tracking eff
+      # prefix_dir: /data2/MLhep/sim/train_259454/ # 97 % tracking eff
       # prefix_dir: /data2/MLhep/sim/train_239774/ # Andrea's model
       # prefix_dir: /data2/MLhep/sim/train_244893/ # no TOF
       # prefix_dir: /data2/MLhep/sim/train_244894/ # no PID
@@ -378,9 +378,9 @@ D0Jet_pp:
 
     jet_obs: &jet_default
       sel_an_binmin:    [1,2,3,4,5,6,7,8,10,12,16,24] # hadron pt bins (sel_an_binmin bins)
-      sel_an_binmax:    [2,3,4,5,6,7,8,10,12,16,24,36] # hadron pt bins (sel_an_binmin bins) # FIXME: move the last edge in sel_an_binmin
-      bins_ptjet: [5, 7, 15, 30, 50] # systematics, TODO: split rec and gen binning
-      bins_ptjet_eff: [2, 5, 7, 15, 30, 50, 70] # systematics, TODO: split rec and gen binning
+      sel_an_binmax:    [2,3,4,5,6,7,8,10,12,16,24,48] # hadron pt bins (sel_an_binmin bins) # FIXME: move the last edge in sel_an_binmin
+      bins_ptjet: [5, 7, 15, 30, 50, 70] # systematics, TODO: split rec and gen binning
+      bins_ptjet_eff: [2, 5, 7, 15, 30, 50, 70, 90] # systematics, TODO: split rec and gen binning
       cand_collidx: fIndexHfD0CollBases
       counter_read_data: fReadCountsWithTVXAndZVertexAndSel8
       counter_read_mc: fReadCountsWithTVXAndZVertexAndSelMC
@@ -391,25 +391,25 @@ D0Jet_pp:
 
       observables:
         zg:
-          bins_gen_fix: [6, -.1, .5]
-          bins_det_fix: [6, -.1, .5]
+          bins_gen_var: [-.1, .0, .05, .1, .15, .2, .25, .3, .35, .4, .45, .5]
+          bins_det_var: [-.1, .0, .05, .1, .15, .2, .25, .3, .35, .4, .45, .5]
           label: '#it{z}_{g}'
           label_y: "(1/#it{N}_{jet ch}) d#it{N}/d#it{z}_{g}"
         nsd:
-          bins_gen_fix: [10, -.5, 9.5]
-          bins_det_fix: [10, -.5, 9.5]
+          bins_gen_fix: [7, -.5, 6.5]
+          bins_det_fix: [7, -.5, 6.5]
           label: '#it{n}_{SD}'
           label_y: "(1/#it{N}_{jet ch}) d#it{N}/d#it{n}_{SD}"
         rg:
-          bins_gen_fix: [11, -.1, 1.]
-          bins_det_fix: [11, -.1, 1.]
+          bins_gen_var: [-.1, .0, .05, .1, .15, .2, .25, .3, .35, .4, .45, .5]
+          bins_det_var: [-.1, .0, .05, .1, .15, .2, .25, .3, .35, .4, .45, .5]
           label: '#it{R}_{g}'
           label_y: "(1/#it{N}_{jet ch}) d#it{N}/d#it{R}_{g}"
         zpar:
           # bins_gen_fix: [10, 0., 1.]
           # bins_det_fix: [10, 0., 1.]
-          bins_gen_var: [0.4, 0.6, 0.7, 0.8, 0.9, 1.]
-          bins_det_var: [0.4, 0.6, 0.7, 0.8, 0.9, 1.]
+          bins_gen_var: [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.]
+          bins_det_var: [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.]
           label: '#it{z}_{#parallel}'
           label_y: "(1/#it{N}_{jet ch}) d#it{N}/d#it{z}_{#parallel}"
         dr:
@@ -517,7 +517,7 @@ D0Jet_pp:
             model:
               fn: 'SUM::refl(frac_l[0.,1.]*refl_l, refl_r)'
         - level: mcrefl
-          ptrange: [12., 36.]
+          ptrange: [12., 48.]
           datasel: mcrefl
           range: [1.40, 2.4]
           components:
@@ -570,7 +570,7 @@ D0Jet_pp:
             model:
               fn: 'SUM::sigrefl(frac_refl[0.,1.]*refl, sig)'
         - level: mc
-          ptrange: [12., 36.]
+          ptrange: [12., 48.]
           range: [1.40, 2.40]
           fix_params: ['frac_l', 'mean_l', 'mean_r', 'sigma_l', 'sigma_r', 'frac_wide', 'sigma_g1', 'sigma_wide']
           components:
@@ -688,8 +688,8 @@ D0Jet_pp:
         correction_method: run3
 
       unfolding_iterations: 8 # used, maximum iteration
-      unfolding_iterations_sel: 4 # used, selected iteration # systematics
-      # unfolding_frac_flat: .1
+      unfolding_iterations_sel: 5 # used, selected iteration # systematics
+      unfolding_frac_flat: 0.0
 
       closure:
         pure_signal: false

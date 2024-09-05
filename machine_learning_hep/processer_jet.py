@@ -134,7 +134,7 @@ class ProcesserJets(Processer):
         df['zpar_num'] = df.jetPx * df.hfPx + df.jetPy * df.hfPy + df.jetPz * df.hfPz
         df['zpar_den'] = df.jetPx * df.jetPx + df.jetPy * df.jetPy + df.jetPz * df.jetPz
         df['zpar'] = df.zpar_num / df.zpar_den
-        df[df['zpar'] == 1.]['zpar'] = .99999 # move 1 to last bin
+        df[df['zpar'] >= 1.]['zpar'] = .999 # move 1 to last bin
         df['nsub21'] = df.fNSub2 / df.fNSub1
 
         self.logger.debug('zg')

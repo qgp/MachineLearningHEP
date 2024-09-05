@@ -481,6 +481,21 @@ categories:
                                         fn: 'Exponential::bkg(m, alpha[-100,0])'
                                       model:
                                         fn: 'SUM::sum(frac[0.,1.]*sigrefl, bkg)'
+                            sidesub:
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [10., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-1.5, 1.5]  # variation
+                                        right: [3., 5.]
+                                  - regions:
+                                        left: [-5.5, -3.]
+                                        signal: [-1.5, 1.5]  # variation
+                                        right: [3., 5.5]
             rebin:
                 activate: [yes, yes, yes, yes]
                 label: ["rebin 1", "rebin 2", "rebin 4", "rebin 5"]
@@ -663,10 +678,16 @@ categories:
                                         signal: [-2.5, 2.5]  # variation
                                         right: [3., 5.5]
             ranges:
-                activate: [yes, yes]
+                activate: [yes, yes, yes, yes, yes, yes, yes, yes]
                 label:
                     - "SB 3#minus6#it{#sigma}"
                     - "SB 3#minus5#it{#sigma}"
+                    - "SB 3#minus6#it{#sigma} left"
+                    - "SB 3.5#minus6#it{#sigma} left"
+                    - "SB 4.0#minus6#it{#sigma} left"
+                    - "SB 3.0#minus6#it{#sigma} right"
+                    - "SB 3.5#minus6#it{#sigma} right"
+                    - "SB 4.0#minus6#it{#sigma} right"
                 diffs:
                     analysis:
                         jet_obs:
@@ -699,6 +720,90 @@ categories:
                                         left: [-5., -3.]  # variation
                                         signal: [-2., 2.]
                                         right: [3., 5.]  # variation
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-6., -3.]  # variation
+                                        signal: [-2., 2.]
+                                        right: [3., 5.5]  # variation
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-6., -3.5]  # variation
+                                        signal: [-2., 2.]
+                                        right: [3., 5.5]
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-6., -4.0]  # variation
+                                        signal: [-2., 2.]
+                                        right: [3., 5.5]
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-5.5., -3.0]
+                                        signal: [-2., 2.]
+                                        right: [3., 6.]  # variation
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-5.5., -3.0]
+                                        signal: [-2., 2.]
+                                        right: [3.5, 6.]  # variation
+                                - - level: mc
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 3.]
+                                  - ptrange: [16., 100.]
+                                    regions:
+                                        left: [-2., -2.]
+                                        signal: [-2., 2.]
+                                        right: [3., 5.]  # variation
+                                  - regions:
+                                        left: [-5.5., -3.0]
+                                        signal: [-2., 2.]
+                                        right: [4., 6.]  # variation
             sb_left:  # not for D0
                 activate: [no]
                 label: ["left sb only"]
@@ -761,13 +866,13 @@ categories:
         rms_both_sides: true
         variations:
             flat:
-                activate: [yes]
-                label: ["flat"]
+                activate: [yes, yes, yes, yes, yes, yes, yes, yes, yes, no]
+                label: ["flat_0.1", "flat_0.2", "flat_0.3", "flat_0.4", "flat_0.5", "flat_0.6", "flat_0.7", "flat_0.8", "flat_0.9", "flat_1.0"]
                 diffs:
                     analysis:
                         jet_obs:
-                            doprior: [true]
-                            unfolding_iterations_sel: [4]
+                            unfolding_frac_flat: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+                            unfolding_iterations_sel: [5, 5, 6, 6, 7, 7, 7, 7, 8, 8]
     modeldep:  # TODO
         activate: no
         processor: true
@@ -797,11 +902,11 @@ categories:
         variations:
             iter:
                 activate: [yes, yes]
-                label: ["down (3)", "up (7)"]
+                label: ["down (4)", "up (7)"]
                 diffs:
                     analysis:
                         jet_obs:
-                            unfolding_iterations_sel: [3, 7]
+                            unfolding_iterations_sel: [4, 7]
     normalisation:
         activate: yes
         processor: false
@@ -817,7 +922,7 @@ categories:
                 diffs:
                     analysis:
                         jet_obs:
-                            xsection_inel: [53.46, 65.34]
+                            xsection_inel: [54.91, 60.69]  # TODO: update values for Run 3
     tracking:
         activate: yes
         processor: true
@@ -833,7 +938,7 @@ categories:
                 diffs:
                   multi:
                     mc:
-                      prefix_dir: [/data2/MLhep/sim/train_257227/]
+                      prefix_dir: [/data2/MLhep/sim/train_259454/]
     binning:
         activate: yes
         processor: true
@@ -853,8 +958,8 @@ categories:
                 diffs:
                     analysis:
                         jet_obs:
-                            bins_ptjet: [[4, 7, 15, 30, 50], [5, 7, 15, 30, 55]]
-                            bins_ptjet_eff: [[2, 4, 7, 15, 30, 50, 70], [2, 5, 7, 15, 30, 55, 70]]
+                            bins_ptjet: [[4, 7, 15, 30, 50, 70], [5, 7, 15, 30, 50, 75]]
+                            bins_ptjet_eff: [[2, 4, 7, 15, 30, 50, 70, 90], [2, 5, 7, 15, 30, 50, 75, 90]]
             observable:
                 activate: [no]
                 label:
@@ -881,24 +986,27 @@ categories:
         rms_both_sides: true
         variations:
             ml:
-                activate: [no, no, no, yes, no, no, yes]
+                activate: [no, no, no, yes, yes, yes, yes, yes, no, yes, yes, yes, yes]
                 label:
-                    - "default"  # working point (for tests, should be same as the default result)
-                    - "null"  # no cuts (for tests, whatever was applied on Hyperloop)
-                    - "loosest"  # same cuts as Hyperloop (for tests, should be same as null)
-                    - "loose"  # to increase efficiency by 20 %
-                    - "tight 2"
-                    - "tight 4"
-                    - "tight"  # to decrease efficiency by 20 %
+                    # default: working point (for tests, should be same as the default result)
+                    # null: no cuts (for tests, whatever was applied on Hyperloop)
+                    # loosest: same cuts as Hyperloop (for tests, should be same as null)
+                    ["default", "null", "loosest", "tight 5", "tight 4", "tight 3", "tight 2", "tight 1", "loose 1", "loose 2", "loose 3", "loose 4", "loose 5"]
                 diffs:
                     analysis:
                         jet_obs:
-                            use_cuts: [True, True, True, True, True, True, True]
+                            use_cuts: [True, True, True, True, True, True, True, True, True, True, True, True, True]
                             cuts:
                                     - ["mlBkgScore < 0.02", "mlBkgScore < 0.02", "mlBkgScore < 0.02", "mlBkgScore < 0.05", "mlBkgScore < 0.06", "mlBkgScore < 0.08", "mlBkgScore < 0.08", "mlBkgScore < 0.10", "mlBkgScore < 0.10", "mlBkgScore < 0.20", "mlBkgScore < 0.25", "mlBkgScore < 0.30"]  # default
                                     - [null,null,null,null,null,null,null,null,null,null,null,null]
                                     - ["mlBkgScore < 0.30", "mlBkgScore < 0.35", "mlBkgScore < 0.40", "mlBkgScore < 0.40", "mlBkgScore < 0.40", "mlBkgScore < 0.4", "mlBkgScore < 0.4", "mlBkgScore < 0.5", "mlBkgScore < 0.5", "mlBkgScore < 0.5", "mlBkgScore < 0.5", "mlBkgScore < 0.5"]  # loosest
-                                    - ["mlBkgScore < 0.045", "mlBkgScore < 0.053", "mlBkgScore < 0.054", "mlBkgScore < 0.19", "mlBkgScore < 0.22", "mlBkgScore < 0.33", "mlBkgScore < 0.46", "mlBkgScore < 0.38", "mlBkgScore < 0.50", "mlBkgScore < 0.50", "mlBkgScore < 0.50", "mlBkgScore < 0.50"]  # loose
-                                    - ["mlBkgScore < 0.045", "mlBkgScore < 0.053", "mlBkgScore < 0.054", "mlBkgScore < 0.19", "mlBkgScore < 0.22", "mlBkgScore < 0.33", "mlBkgScore < 0.46", "mlBkgScore < 0.38", "mlBkgScore < 0.50", "mlBkgScore < 0.50", "mlBkgScore < 0.50", "mlBkgScore < 0.50"]  # tighter 2
-                                    - ["mlBkgScore < 0.008", "mlBkgScore < 0.008", "mlBkgScore < 0.008", "mlBkgScore < 0.017", "mlBkgScore < 0.024", "mlBkgScore < 0.032", "mlBkgScore < 0.028", "mlBkgScore < 0.040", "mlBkgScore < 0.040", "mlBkgScore < 0.050", "mlBkgScore < 0.050", "mlBkgScore < 0.050"]  # tighter 4
-                                    - ["mlBkgScore < 0.008", "mlBkgScore < 0.008", "mlBkgScore < 0.0087", "mlBkgScore < 0.017", "mlBkgScore < 0.024", "mlBkgScore < 0.031", "mlBkgScore < 0.028", "mlBkgScore < 0.042", "mlBkgScore < 0.038", "mlBkgScore < 0.052", "mlBkgScore < 0.067", "mlBkgScore < 0.060"]  # tight
+                                    -  ["mlBkgScore < 0.008", "mlBkgScore < 0.008", "mlBkgScore < 0.0087", "mlBkgScore < 0.017", "mlBkgScore < 0.024", "mlBkgScore < 0.031", "mlBkgScore < 0.028", "mlBkgScore < 0.042", "mlBkgScore < 0.038", "mlBkgScore < 0.052", "mlBkgScore < 0.067", "mlBkgScore < 0.06"]   # tight 5
+                                    -  ["mlBkgScore < 0.0104", "mlBkgScore < 0.0104", "mlBkgScore < 0.01096", "mlBkgScore < 0.0236", "mlBkgScore < 0.0312", "mlBkgScore < 0.0408", "mlBkgScore < 0.0384", "mlBkgScore < 0.0536", "mlBkgScore < 0.0504", "mlBkgScore < 0.0816", "mlBkgScore < 0.1036", "mlBkgScore < 0.108"]   # tight 4
+                                    -  ["mlBkgScore < 0.0128", "mlBkgScore < 0.0128", "mlBkgScore < 0.01322", "mlBkgScore < 0.0302", "mlBkgScore < 0.0384", "mlBkgScore < 0.0506", "mlBkgScore < 0.0488", "mlBkgScore < 0.0652", "mlBkgScore < 0.0628", "mlBkgScore < 0.1112", "mlBkgScore < 0.1402", "mlBkgScore < 0.156"]   # tight 3
+                                    -  ["mlBkgScore < 0.0152", "mlBkgScore < 0.0152", "mlBkgScore < 0.01548", "mlBkgScore < 0.0368", "mlBkgScore < 0.0456", "mlBkgScore < 0.0604", "mlBkgScore < 0.0592", "mlBkgScore < 0.0768", "mlBkgScore < 0.0752", "mlBkgScore < 0.1408", "mlBkgScore < 0.1768", "mlBkgScore < 0.204"]   # tight 2
+                                    -  ["mlBkgScore < 0.0176", "mlBkgScore < 0.0176", "mlBkgScore < 0.01774", "mlBkgScore < 0.0434", "mlBkgScore < 0.0528", "mlBkgScore < 0.0702", "mlBkgScore < 0.0696", "mlBkgScore < 0.0884", "mlBkgScore < 0.0876", "mlBkgScore < 0.1704", "mlBkgScore < 0.2134", "mlBkgScore < 0.252"]   # tight 1
+                                    -  ["mlBkgScore < 0.025", "mlBkgScore < 0.0266", "mlBkgScore < 0.0268", "mlBkgScore < 0.078", "mlBkgScore < 0.092", "mlBkgScore < 0.13", "mlBkgScore < 0.156", "mlBkgScore < 0.156", "mlBkgScore < 0.18", "mlBkgScore < 0.26", "mlBkgScore < 0.3", "mlBkgScore < 0.34"]   # loose 1
+                                    -  ["mlBkgScore < 0.03", "mlBkgScore < 0.0332", "mlBkgScore < 0.0336", "mlBkgScore < 0.106", "mlBkgScore < 0.124", "mlBkgScore < 0.18", "mlBkgScore < 0.232", "mlBkgScore < 0.212", "mlBkgScore < 0.26", "mlBkgScore < 0.32", "mlBkgScore < 0.35", "mlBkgScore < 0.38"]   # loose 2
+                                    -  ["mlBkgScore < 0.035", "mlBkgScore < 0.0398", "mlBkgScore < 0.0404", "mlBkgScore < 0.134", "mlBkgScore < 0.156", "mlBkgScore < 0.23", "mlBkgScore < 0.308", "mlBkgScore < 0.268", "mlBkgScore < 0.34", "mlBkgScore < 0.38", "mlBkgScore < 0.4", "mlBkgScore < 0.42"]   # loose 3
+                                    -  ["mlBkgScore < 0.04", "mlBkgScore < 0.0464", "mlBkgScore < 0.0472", "mlBkgScore < 0.162", "mlBkgScore < 0.188", "mlBkgScore < 0.28", "mlBkgScore < 0.384", "mlBkgScore < 0.324", "mlBkgScore < 0.42", "mlBkgScore < 0.44", "mlBkgScore < 0.45", "mlBkgScore < 0.46"]   # loose 4
+                                    -  ["mlBkgScore < 0.045", "mlBkgScore < 0.053", "mlBkgScore < 0.054", "mlBkgScore < 0.19", "mlBkgScore < 0.22", "mlBkgScore < 0.33", "mlBkgScore < 0.46", "mlBkgScore < 0.38", "mlBkgScore < 0.5", "mlBkgScore < 0.5", "mlBkgScore < 0.5", "mlBkgScore < 0.5"]   # loose 5

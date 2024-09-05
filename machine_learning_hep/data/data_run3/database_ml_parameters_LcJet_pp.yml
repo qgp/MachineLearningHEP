@@ -252,11 +252,11 @@ LcJet_pp:
       select_period: [1]
       prefix_dir: /data2/MLhep/real/
       unmerged_tree_dir: [train_257594/alice/] #list of periods
-      pkl: [ldellost/train_257594/lcjet/pkl] #list of periods
-      pkl_skimmed: [ldellost/train_257594/lcjet/pklsk] #list of periods
-      pkl_skimmed_merge_for_ml: ['${USER}/train_257594/lcjet/pklskml'] #list of periods
-      pkl_skimmed_merge_for_ml_all: '${USER}/train_257594/lcjet/pp_data_mltot'
-      pkl_evtcounter_all: '${USER}/train_257594/lcjet/pp_data_evttot'
+      pkl: [vkucera/train_257594/lcjet/pkl] #list of periods
+      pkl_skimmed: [vkucera/train_257594/lcjet/pklsk] #list of periods
+      pkl_skimmed_merge_for_ml: ['vkucera/train_257594/lcjet/pklskml'] #list of periods
+      pkl_skimmed_merge_for_ml_all: 'vkucera/train_257594/lcjet/pp_data_mltot'
+      pkl_evtcounter_all: 'vkucera/train_257594/lcjet/pp_data_evttot'
       mcreweights: [../Analyses] #list of periods
     mc:
       nprocessesparallel: 80
@@ -269,11 +269,11 @@ LcJet_pp:
       select_period: [1]
       prefix_dir: /data2/MLhep/sim/
       unmerged_tree_dir: [train_257383/alice]
-      pkl: [ldellost/train_257383/lcjet/pkl] #list of periods
-      pkl_skimmed: [ldellost/train_257383/lcjet/pklsk] #list of periods
-      pkl_skimmed_merge_for_ml: ['${USER}/train_257383/lcjet/pklskml'] #list of periods
-      pkl_skimmed_merge_for_ml_all: '${USER}/lcjet/pp_mc_prod_mltot'
-      pkl_evtcounter_all: '${USER}/lcjet/pp_mc_prod_evttot'
+      pkl: [vkucera/train_257383/lcjet/pkl] #list of periods
+      pkl_skimmed: [vkucera/train_257383/lcjet/pklsk] #list of periods
+      pkl_skimmed_merge_for_ml: ['vkucera/train_257383/lcjet/pklskml'] #list of periods
+      pkl_skimmed_merge_for_ml_all: 'vkucera/lcjet/pp_mc_prod_mltot'
+      pkl_evtcounter_all: 'vkucera/lcjet/pp_mc_prod_evttot'
       mcreweights: [../Analyses] #list of periods
 
   ml:
