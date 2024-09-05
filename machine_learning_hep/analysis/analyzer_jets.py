@@ -1055,11 +1055,11 @@ class AnalyzerJets(Analyzer): # pylint: disable=too-many-instance-attributes,too
         rm = ROOT.RooUnfoldResponse(
             project_hist(h_response, [0, 1], {}), project_hist(h_response, [2, 3], {}))
         for hbin in itertools.product(
-            enumerate(get_axis(h_response, 0).GetXbins(), 1),
-            enumerate(get_axis(h_response, 1).GetXbins(), 1),
-            enumerate(get_axis(h_response, 2).GetXbins(), 1),
-            enumerate(get_axis(h_response, 3).GetXbins(), 1),
-            enumerate(get_axis(h_response, 4).GetXbins(), 1)):
+            enumerate(list(get_axis(h_response, 0).GetXbins())[:-1], 1),
+            enumerate(list(get_axis(h_response, 1).GetXbins())[:-1], 1),
+            enumerate(list(get_axis(h_response, 2).GetXbins())[:-1], 1),
+            enumerate(list(get_axis(h_response, 3).GetXbins())[:-1], 1),
+            enumerate(list(get_axis(h_response, 4).GetXbins())[:-1], 1)):
             n = h_response.GetBinContent(
                 np.asarray([hbin[0][0], hbin[1][0], hbin[2][0], hbin[3][0], hbin[4][0]], 'i'))
             eff = h_eff.GetBinContent(hbin[4][0]) if h_eff else 1.
