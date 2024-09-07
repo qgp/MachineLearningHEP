@@ -239,7 +239,7 @@ class ProcesserJets(Processer):
 
             self._calculate_variables(df)
             # FIXME: suppress D*, move to DB
-            df = df[(abs(df.M_D_pi - 2.01) > .01) & (df.fJetNConstituents == 2)]
+            df = df[(abs(df.M_D_pi - 2.01) > .01) | (df.fJetNConstituents > 2)]
 
             for obs, spec in self.cfg('observables', {}).items():
                 self.logger.debug('preparing histograms for %s', obs)
