@@ -701,6 +701,7 @@ D0Jet_pp:
       frac_mcana: .2 # fraction of MC sample for the closure
       fd_root: '/data2/vkucera/powheg/trees_powheg_fd_central.root' # systematics
       fd_parquet: '/data2/jklein/powheg/trees_powheg_fd_central.parquet' # systematics
+      fd_folding_method: 3d
 
       # obsolete?
       proc_type: Jets # used

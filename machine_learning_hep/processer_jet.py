@@ -438,24 +438,24 @@ class ProcesserJets(Processer):
         axis_var_gen = get_axis(h_response[var], 5)
 
         df = dfi
-        fill_hist(h_response[var], df[['fJetPt_gen', 'fPt_gen', f'{var}_gen', 'fJetPt_gen', 'fPt_gen', f'{var}_gen']])
+        fill_hist(h_response[var], df[['fJetPt', 'fPt', f'{var}', 'fJetPt_gen', 'fPt_gen', f'{var}_gen']])
 
         # TODO: the first cut should be taken care of by under-/overflow bins, check their usage in analyzer
-        # df = df.loc[(df.fJetPt >= axis_ptjet_det.GetXmin()) & (df.fJetPt < axis_ptjet_det.GetXmax()) &
-        #             (df.fPt >= axis_pthf_det.GetXmin()) & (df.fPt < axis_pthf_det.GetXmax()) &
-        #             (df[var] >= axis_var_det.GetXmin()) & (df[var] < axis_var_det.GetXmax())]
+        df = df.loc[(df.fJetPt >= axis_ptjet_det.GetXmin()) & (df.fJetPt < axis_ptjet_det.GetXmax()) &
+                    (df.fPt >= axis_pthf_det.GetXmin()) & (df.fPt < axis_pthf_det.GetXmax()) &
+                    (df[var] >= axis_var_det.GetXmin()) & (df[var] < axis_var_det.GetXmax())]
         fill_hist(h_effkine[('det', 'nocuts', var)], df[['fJetPt', 'fPt', var]])
-        # df = df.loc[(df.fJetPt_gen >= axis_ptjet_gen.GetXmin()) & (df.fJetPt_gen < axis_ptjet_gen.GetXmax()) &
-        #             (df.fPt_gen >= axis_pthf_gen.GetXmin()) & (df.fPt_gen < axis_pthf_gen.GetXmax()) &
-        #             (df[f'{var}_gen'] >= axis_var_gen.GetXmin()) & (df[f'{var}_gen'] < axis_var_gen.GetXmax())]
+        df = df.loc[(df.fJetPt_gen >= axis_ptjet_gen.GetXmin()) & (df.fJetPt_gen < axis_ptjet_gen.GetXmax()) &
+                    (df.fPt_gen >= axis_pthf_gen.GetXmin()) & (df.fPt_gen < axis_pthf_gen.GetXmax()) &
+                    (df[f'{var}_gen'] >= axis_var_gen.GetXmin()) & (df[f'{var}_gen'] < axis_var_gen.GetXmax())]
         fill_hist(h_effkine[('det', 'cut', var)], df[['fJetPt', 'fPt', var]])
 
         df = dfi
-        # df = df.loc[(df.fJetPt_gen >= axis_ptjet_gen.GetXmin()) & (df.fJetPt_gen < axis_ptjet_gen.GetXmax()) &
-        #             (df.fPt_gen >= axis_pthf_gen.GetXmin()) & (df.fPt_gen < axis_pthf_gen.GetXmax()) &
-        #             (df[f'{var}_gen'] >= axis_var_gen.GetXmin()) & (df[f'{var}_gen'] < axis_var_gen.GetXmax())]
+        df = df.loc[(df.fJetPt_gen >= axis_ptjet_gen.GetXmin()) & (df.fJetPt_gen < axis_ptjet_gen.GetXmax()) &
+                    (df.fPt_gen >= axis_pthf_gen.GetXmin()) & (df.fPt_gen < axis_pthf_gen.GetXmax()) &
+                    (df[f'{var}_gen'] >= axis_var_gen.GetXmin()) & (df[f'{var}_gen'] < axis_var_gen.GetXmax())]
         fill_hist(h_effkine[('gen', 'nocuts', var)], df[['fJetPt_gen', 'fPt_gen', f'{var}_gen']])
-        # df = df.loc[(df.fJetPt >= axis_ptjet_det.GetXmin()) & (df.fJetPt < axis_ptjet_det.GetXmax()) &
-        #             (df.fPt >= axis_pthf_det.GetXmin()) & (df.fPt < axis_pthf_det.GetXmax()) &
-        #             (df[f'{var}'] >= axis_var_det.GetXmin()) & (df[f'{var}'] < axis_var_det.GetXmax())]
+        df = df.loc[(df.fJetPt >= axis_ptjet_det.GetXmin()) & (df.fJetPt < axis_ptjet_det.GetXmax()) &
+                    (df.fPt >= axis_pthf_det.GetXmin()) & (df.fPt < axis_pthf_det.GetXmax()) &
+                    (df[f'{var}'] >= axis_var_det.GetXmin()) & (df[f'{var}'] < axis_var_det.GetXmax())]
         fill_hist(h_effkine[('gen', 'cut', var)], df[['fJetPt_gen', 'fPt_gen', f'{var}_gen']])

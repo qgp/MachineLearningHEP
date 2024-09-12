@@ -1060,6 +1060,13 @@ class AnalyzerJets(Analyzer):
                 hfeeddown_det.Divide(h_effkine_det)
                 self._save_hist(hfeeddown_det, f'fd/h_ptjet-{var}_feeddown_det_kineeffscaled.png')
 
+            c = TCanvas()
+            c.cd()
+            hc = project_hist(h_fd_det, [1], {0: (3, 3)}).DrawCopy()
+            hc.SetLineColor(ROOT.kViolet)
+            hc = project_hist(hfeeddown_det, [1], {0: (3, 3)}).DrawCopy('same')
+            self._save_canvas(c, f'fd/h_{var}_fdcmp.png')
+
             if self.cfg('fd_folding_method') == '3d':
                 self.logger.info('using 3d folding for feeddown estimation for %s', var)
                 hfeeddown_det = h_fd_det
