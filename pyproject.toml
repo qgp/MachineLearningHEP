@@ -51,7 +51,7 @@ dependencies = [
   "xgboost>=0.90",
   "zstandard>=0.21.0",
 ]
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 authors = [
   {name = "Gian Michele Innocenti", email = "gian.michele.innocenti@cern.ch"},
   {name = "Jochen Klein", email = "jochen.klein@cern.ch"},
