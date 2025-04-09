@@ -601,17 +601,17 @@ class AnalyzerJets(Analyzer):
                         # TODO: save snapshot per level
                         # roo_ws.saveSnapshot(level, None)
                         if iptjet is not None:
-                            self.roows_ptjet[(iptjet, ipt)] = roo_ws
-                            self.roo_ws_ptjet[level][iptjet][ipt] = roo_ws
+                            self.roows_ptjet[(iptjet, ipt)] = roo_ws.Clone(f"{level}_{iptjet}_{ipt} latest")
+                            self.roo_ws_ptjet[level][iptjet][ipt] = roo_ws.Clone(f"{level}_{iptjet}_{ipt}")
                             self.logger.info("not none: %s", self.roo_ws_ptjet)
                             self.logger.info("Setting roows_ptjet for %s iptjet %s ipt %d: %s", level, iptjet, ipt, self.roo_ws_ptjet[level][iptjet][ipt])
                         else:
-                            self.roows[ipt] = roo_ws
-                            self.roo_ws[level][ipt] = roo_ws
+                            self.roows[ipt] = roo_ws.Clone(f"{level}_{ipt} latest")
+                            self.roo_ws[level][ipt] = roo_ws.Clone(f"{level}_{ipt}")
                             self.logger.info("Setting roows for %s iptjet %s ipt %d: %s", level, iptjet, ipt, self.roo_ws[level][ipt])
                             for jptjet in range(get_nbins(h, 1)):
-                                self.roows_ptjet[(jptjet, ipt)] = roo_ws.Clone()
-                                self.roo_ws_ptjet[level][jptjet][ipt] = roo_ws.Clone()
+                                self.roows_ptjet[(jptjet, ipt)] = roo_ws.Clone(f"{level}_{jptjet}_{ipt} latest default")
+                                self.roo_ws_ptjet[level][jptjet][ipt] = roo_ws.Clone(f"{level}_{jptjet}_{ipt} default")
                                 self.logger.info("Defaulting roows_ptjet for %s iptjet %s ipt %d: %s", level, jptjet, ipt, self.roo_ws_ptjet[level][jptjet][ipt])
                                 self.logger.info("Defaulted: %s", self.roo_ws_ptjet[level])
                             # TODO: take parameter names from DB
