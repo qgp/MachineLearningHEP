@@ -497,7 +497,8 @@ class AnalyzerJets(Analyzer):
             self.fit_func_bkg[level] = [None] * self.nbins
             self.fit_range[level] = [None] * self.nbins
             self.roo_ws[level] = [None] * self.nbins
-            self.roo_ws_ptjet[level] = [[None] * self.nbins] * 10
+            # self.roo_ws_ptjet[level] = [[None] * self.nbins] * 10
+            self.roo_ws_ptjet[level] = [[None] * self.nbins for _ in range(10)]
             self.logger.info("init: %s", self.roo_ws_ptjet[level])
             rfilename = self.n_filemass_mc if "mc" in level else self.n_filemass
             fitcfg = None
