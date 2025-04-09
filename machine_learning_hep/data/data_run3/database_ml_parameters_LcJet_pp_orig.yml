@@ -1,0 +1,1236 @@
+LcJet_pp:
+  doml: true
+  mass: 2.28646
+  sel_reco_unp: fPt>0
+  sel_gen_unp: fPt>0
+  sel_cen_unp: null
+  sel_good_evt_unp: null
+  sel_reco_skim:
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  sel_gen_skim:
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  - null
+  sel_skim_binmin:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 10
+  - 12
+  sel_skim_binmax:
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 10
+  - 12
+  - 30
+  var_binning: fPt
+  dofullevtmerge: false
+  var_cand: fCandidateSelFlag
+  bitmap_sel:
+    var_name: fFlagMcMatchRec
+    var_name_gen: fFlagMcMatchGen
+    var_name_origgen: fOriginMcGen
+    var_name_origrec: fOriginMcRec
+    var_isstd: isstd
+    var_ismcsignal: ismcsignal
+    var_ismcprompt: ismcprompt
+    var_ismcfd: ismcfd
+    var_ismcbkg: ismcbkg
+    var_ismcrefl: ismcrefl
+    isstd:
+    - - 1
+    - []
+    ismcsignal:
+    - - 1
+    - []
+    ismcprompt:
+    - - 0
+    - []
+    ismcfd:
+    - - 1
+    - []
+    ismcbkg:
+    - []
+    - - 1
+    ismcrefl:
+    - - 1
+    - - 1
+  dfs:
+    read:
+      evtorig:
+        level: all
+        index: fIndexHFLCCOLLBASES
+        trees:
+          O2hflccollbase:
+          - fNumContrib
+          - fCentFT0M
+          - fMultZeqNTracksPV
+        extra:
+          fIsEventReject: 0
+      collcnt:
+        trees:
+          O2collcount:
+          - fReadCounts
+          - fReadCountsWithTVX
+          - fReadCountsWithTVXAndZVertexAndSel8
+          - fReadCountsWithTVXAndZVertexAndSelMC
+      bccnt:
+        trees:
+          O2bccount:
+          - fReadCountsWithTVX
+          - fReadCountsWithTVXAndNoTFB
+          - fReadCountsWithTVXAndNoTFBAndNoITSROFB
+      jetgen:
+        level: gen
+        index: fIndexLCMCPJETOS
+        trees:
+          O2hflcpbase:
+          - fPt
+          - fY
+          - fEta
+          - fPhi
+          - fFlagMcMatchGen
+          - fOriginMcGen
+          O2lccmcpjeto:
+          - fIndexLCCMCPJETCOS
+          - fIndexHFLCPBASES_0
+          - fJetPt
+          - fJetPhi
+          - fJetEta
+          - fJetNConstituents
+          - fJetR
+          O2lccmcpjetmo:
+          - fIndexArrayLCCMCDJETOS_hf
+          - fIndexArrayLCCMCDJETOS_geo
+          - fIndexArrayLCCMCDJETOS_pt
+          O2lccmcpjetsso:
+          - fEnergyMother
+          - fPtLeading
+          - fPtSubLeading
+          - fTheta
+          - fNSub2DR
+          - fNSub1
+          - fNSub2
+          - fPairJetTheta
+          - fPairJetPt
+          - fPairJetEnergy
+        tags:
+          isstd:
+            var: fFlagMcMatchGen
+            req:
+            - - 1
+            - []
+          ismcsignal:
+            var: fFlagMcMatchGen
+            req:
+            - - 1
+            - []
+            abs: true
+          ismcbkg:
+            var: fFlagMcMatchGen
+            req:
+            - []
+            - - 1
+            abs: true
+          ismcprompt:
+            var: fOriginMcGen
+            req:
+            - - 0
+            - []
+          ismcfd:
+            var: fOriginMcGen
+            req:
+            - - 1
+            - []
+        filter: fPt >= 1. and abs(fY) <= 0.8 and abs(fJetEta) < (.9 - (fJetR / 100.))
+      colldet:
+        level: det
+        index: fIndexLCCMCDJETCOS
+        trees:
+          O2lccmcdjetco:
+          - fPosZ
+          - fCentrality
+          - fEventSel
+      jetdet:
+        level: det
+        index: fIndexLCCMCDJETOS
+        trees:
+          O2hflcbase:
+          - fIndexHFLCCOLLBASES
+          - fPt
+          - fY
+          - fEta
+          - fPhi
+          - fM
+          O2hflcmc:
+          - fFlagMcMatchRec
+          - fOriginMcRec
+          O2hflcsel:
+          - fCandidateSelFlag
+          O2hflcml:
+          - fMlScores
+          O2lccmcdjeto:
+          - fIndexLCCMCDJETCOS
+          - fIndexHFLCBASES_0
+          - fJetPt
+          - fJetPhi
+          - fJetEta
+          - fJetNConstituents
+          - fJetR
+          O2lccmcdjetmo:
+          - fIndexArrayLCCMCPJETOS_hf
+          - fIndexArrayLCCMCPJETOS_geo
+          - fIndexArrayLCCMCPJETOS_pt
+          O2lccmcdjetsso:
+          - fEnergyMother
+          - fPtLeading
+          - fPtSubLeading
+          - fTheta
+          - fNSub2DR
+          - fNSub1
+          - fNSub2
+          - fPairJetTheta
+          - fPairJetPt
+          - fPairJetEnergy
+        tags:
+          isstd:
+            var: fFlagMcMatchRec
+            req:
+            - - 1
+            - []
+          ismcsignal:
+            var: fFlagMcMatchRec
+            req:
+            - - 1
+            - []
+            abs: true
+          ismcbkg:
+            var: fFlagMcMatchRec
+            req:
+            - []
+            - - 1
+            abs: true
+          ismcprompt:
+            var: fOriginMcRec
+            req:
+            - - 0
+            - []
+          ismcfd:
+            var: fOriginMcRec
+            req:
+            - - 1
+            - []
+        extract_component:
+        - var: fMlScores
+          newvar: mlPromptScore
+          component: 1
+        - var: fMlScores
+          newvar: mlBkgScore
+          component: 0
+        filter: fPt >= 1. and abs(fY) <= 0.8 and abs(fJetEta) < (.9 - (fJetR / 100.))
+      colldata:
+        level: data
+        index: fIndexLCCJETCOS
+        trees:
+          O2lccjetco:
+          - fPosZ
+          - fCentrality
+          - fEventSel
+      jetdata:
+        level: data
+        index: fIndexLCCJETOS
+        trees:
+          O2hflcbase:
+          - fIndexHFLCCOLLBASES
+          - fPt
+          - fY
+          - fEta
+          - fPhi
+          - fM
+          O2hflcsel:
+          - fCandidateSelFlag
+          O2hflcml:
+          - fMlScores
+          O2lccjeto:
+          - fIndexLCCJETCOS
+          - fIndexHFLCBASES_0
+          - fJetPt
+          - fJetPhi
+          - fJetEta
+          - fJetNConstituents
+          - fJetR
+          O2lccjetsso:
+          - fIndexLCCJETOS
+          - fEnergyMother
+          - fPtLeading
+          - fPtSubLeading
+          - fTheta
+          - fNSub2DR
+          - fNSub1
+          - fNSub2
+          - fPairJetTheta
+          - fPairJetPt
+          - fPairJetEnergy
+        extract_component:
+        - var: fMlScores
+          newvar: mlPromptScore
+          component: 1
+        - var: fMlScores
+          newvar: mlBkgScore
+          component: 0
+        filter: fPt >= 1. and abs(fY) <= 0.8 and abs(fJetEta) < (.9 - (fJetR / 100.))
+    merge:
+    - base: jetdet
+      ref: colldet
+    - base: jetdata
+      ref: colldata
+    - base: jetdata
+      ref: evtorig
+    write:
+      jetgen:
+        level: gen
+        file: AnalysisResultsGen.parquet
+      jetdet:
+        level: det
+        file: AnalysisResultsReco.parquet
+      jetdata:
+        level: data
+        file: AnalysisResultsReco.parquet
+      evtorig:
+        level: all
+        file: AnalysisResultsEvtOrig.parquet
+      evt:
+        level: all
+        source: evtorig
+        file: AnalysisResultsEvt.parquet
+        filter: fIsEventReject == 0
+      collcnt:
+        level: all
+        file: AnalysisResultsCollCnt.parquet
+      bccnt:
+        level: all
+        file: AnalysisResultsBcCnt.parquet
+  variables:
+    var_all:
+    - fIndexCollisions
+    - fFlagMcMatchRec
+    - fCandidateSelFlag
+    - fOriginMcRec
+    - fIsCandidateSwapped
+    - fNProngsContributorsPV
+    - fY
+    - fEta
+    - fPt
+    - fCpa
+    - fCpaXY
+    - fM
+    - fChi2PCA
+    - fDecayLength
+    - fDecayLengthXY
+    - fPtProng0
+    - fPtProng1
+    - fPtProng2
+    - fImpactParameter0
+    - fImpactParameter1
+    - fImpactParameter2
+    - fNSigTpcPi0
+    - fNSigTpcPr0
+    - fNSigTpcKa1
+    - fNSigTpcPi2
+    - fNSigTpcPr2
+    - fNSigTofPi0
+    - fNSigTofPr0
+    - fNSigTofKa1
+    - fNSigTofPi2
+    - fNSigTofPr2
+    - fNSigTpcTofPi0
+    - fNSigTpcTofPr0
+    - fNSigTpcTofKa1
+    - fNSigTpcTofPi2
+    - fNSigTpcTofPr2
+    var_training:
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    - - fImpactParameter0
+      - fImpactParameter1
+      - fImpactParameter2
+      - fCpa
+      - fChi2PCA
+      - fDecayLength
+      - fDecayLengthXY
+      - fNSigTpcTofPi0
+      - fNSigTpcTofPr0
+      - fNSigTpcTofKa1
+      - fNSigTpcTofPi2
+      - fNSigTpcTofPr2
+    var_boundaries:
+    - fCosThetaStar
+    - fPtProng
+    var_correlation:
+    - - fCosThetaStar
+    - - fPtProng0
+    var_signal: signal
+    var_class: class
+    var_inv_mass: fM
+    var_y: fY
+    var_evt_sel: fIsEventReject
+    var_cuts:
+    - - fPtProng0
+      - lt
+      - null
+    - - fPtProng1
+      - lt
+      - null
+    plot_options:
+      prob_cut_scan:
+        fPtProng0:
+          xlim:
+          - 0
+          - 1
+        fPtProng1:
+          xlim:
+          - 0
+          - 1
+      eff_cut_scan:
+        fPtProng0:
+          xlim:
+          - 0
+          - 1
+        fPtProng1:
+          xlim:
+          - 0
+          - 1
+  files_names:
+    namefile_unmerged_tree: AO2D.root
+    namefile_reco: AnalysisResultsReco.parquet
+    namefile_evt: AnalysisResultsEvt.parquet
+    namefile_collcnt: AnalysisResultsCollCnt.parquet
+    namefile_bccnt: AnalysisResultsBcCnt.parquet
+    namefile_evtvalroot: AnalysisResultsROOTEvtVal.root
+    namefile_evtorig: AnalysisResultsEvtOrig.parquet
+    namefile_gen: AnalysisResultsGen.parquet
+    namefile_reco_applieddata: AnalysisResultsRecoAppliedData.parquet
+    namefile_reco_appliedmc: AnalysisResultsRecoAppliedMC.parquet
+    namefile_mcweights: mcweights.root
+    treeoutput: Lctree
+    histofilename: masshisto.root
+    efffilename: effhisto.root
+    respfilename: resphisto.root
+    crossfilename: cross_section_tot.root
+    resultfilename: results.root
+  multi:
+    data:
+      nprocessesparallel: 80
+      maxfiles:
+      - -1
+      chunksizeunp:
+      - 100
+      chunksizeskim:
+      - 100
+      fracmerge:
+      - 1.0
+      seedmerge:
+      - 12
+      period:
+      - LHC23
+      select_period:
+      - 1
+      prefix_dir: /data2/MLhep/trains/379761/
+      unmerged_tree_dir:
+      - alice
+      pkl:
+      - ${USER}/lcjet/pkl
+      pkl_skimmed:
+      - ${USER}/lcjet/pklsk
+      pkl_skimmed_merge_for_ml:
+      - ${USER}/lcjet/pklskml
+      pkl_skimmed_merge_for_ml_all: ${USER}/lcjet/pp_data_mltot
+      pkl_evtcounter_all: ${USER}/lcjet/pp_data_evttot
+      mcreweights:
+      - ../Analyses
+    mc:
+      nprocessesparallel: 80
+      maxfiles:
+      - -1
+      chunksizeunp:
+      - 100
+      chunksizeskim:
+      - 1000
+      fracmerge:
+      - 1.0
+      seedmerge:
+      - 12
+      period:
+      - LHC24h1
+      select_period:
+      - 1
+      prefix_dir: /data2/MLhep/trains/368429/
+      unmerged_tree_dir:
+      - alice
+      pkl:
+      - ${USER}/lcjet/pkl
+      pkl_skimmed:
+      - ${USER}/lcjet/pklsk
+      pkl_skimmed_merge_for_ml:
+      - ${USER}/lcjet/pklskml
+      pkl_skimmed_merge_for_ml_all: ${USER}/lcjet/pp_mc_prod_mltot
+      pkl_evtcounter_all: ${USER}/lcjet/pp_mc_prod_evttot
+      mcreweights:
+      - ../Analyses
+  ml:
+    evtsel: fIsEventReject == 0
+    triggersel:
+      data: null
+      mc: null
+    nclasses:
+    - 200000
+    - 200000
+    - 200000
+    mult_bkg:
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    sampletags:
+    - 0
+    - 1
+    - 1
+    equalise_sig_bkg: true
+    sel_ml:
+    - fM < 2.22 or fM > 2.35
+    - ismcsignal == 1 and ismcprompt == 1
+    - ismcsignal == 1 and ismcfd == 1
+    class_labels:
+    - bkg
+    - prompt
+    - non-prompt
+    nkfolds: 5
+    rnd_shuffle: 12
+    rnd_splt: 12
+    rnd_all: 12
+    test_frac: 0.2
+    binmin:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 10
+    - 12
+    - 24
+    binmax:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 10
+    - 12
+    - 24
+    - 36
+    mltype: MultiClassification
+    ncorescrossval: 10
+    prefix_dir_ml: /data2/${USER}/MLhep/
+    mlplot: mlplot
+    mlout: mlout
+    opt:
+      isFONLLfromROOT: true
+      filename_fonll: data/fonll/DmesonLcPredictions_13TeV_y05_FFptDepLHCb_BRpythia8_PDG2020.root
+      fonll_particle: hLcpkpipred
+      fonll_pred: max
+      FF: 0.204
+      sigma_MB: 0.0578
+      Taa: 1
+      BR: 0.0624
+      f_prompt: 0.9
+      bkg_data_fraction: 0.05
+      num_steps: 111
+      bkg_function: pol2
+      save_fit: true
+      raahp:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      presel_gen_eff: fPt > 0. and abs(fY) < 0.8
+  mlapplication:
+    data:
+      prefix_dir_app: /data2/${USER}/
+      pkl_skimmed_dec:
+      - LHC23pp/MLapplication/prod_LHC23/skpkldecdata
+      pkl_skimmed_decmerged:
+      - LHC23pp/MLapplication/prod_LHC23/skpkldecdatamerged
+    mc:
+      prefix_dir_app: /data2/${USER}/
+      pkl_skimmed_dec:
+      - LHC23pp_mc/MLapplication/prod_LHC24h1/skpkldecmc
+      pkl_skimmed_decmerged:
+      - LHC23pp_mc/MLapplication/prod_LHC24h1/skpkldecmcmerged
+    modelname: xgboost
+    modelsperptbin:
+    - xgboost_classifierLcpKpi_dfselection_fPt_1.0_2.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_2.0_3.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_3.0_4.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_4.0_5.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_5.0_6.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_6.0_7.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_7.0_8.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_8.0_10.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_10.0_12.0.sav
+    - xgboost_classifierLcpKpi_dfselection_fPt_12.0_24.0.sav
+    probcutpresel:
+      data:
+      - - 0.02
+        - 0.0
+        - 0.0
+      - - 0.03
+        - 0.0
+        - 0.0
+      - - 0.04
+        - 0.0
+        - 0.0
+      - - 0.07
+        - 0.0
+        - 0.0
+      - - 0.09
+        - 0.0
+        - 0.0
+      - - 0.11
+        - 0.0
+        - 0.0
+      - - 0.15
+        - 0.0
+        - 0.0
+      - - 0.18
+        - 0.0
+        - 0.0
+      - - 0.25
+        - 0.0
+        - 0.0
+      - - 0.35
+        - 0.0
+        - 0.0
+      mc:
+      - - 0.02
+        - 0.0
+        - 0.0
+      - - 0.03
+        - 0.0
+        - 0.0
+      - - 0.04
+        - 0.0
+        - 0.0
+      - - 0.07
+        - 0.0
+        - 0.0
+      - - 0.09
+        - 0.0
+        - 0.0
+      - - 0.11
+        - 0.0
+        - 0.0
+      - - 0.15
+        - 0.0
+        - 0.0
+      - - 0.18
+        - 0.0
+        - 0.0
+      - - 0.25
+        - 0.0
+        - 0.0
+      - - 0.35
+        - 0.0
+        - 0.0
+    probcutoptimal:
+    - - 0.02
+      - 0.0
+      - 0.0
+    - - 0.03
+      - 0.0
+      - 0.0
+    - - 0.04
+      - 0.0
+      - 0.0
+    - - 0.07
+      - 0.0
+      - 0.0
+    - - 0.09
+      - 0.0
+      - 0.0
+    - - 0.11
+      - 0.0
+      - 0.0
+    - - 0.15
+      - 0.0
+      - 0.0
+    - - 0.18
+      - 0.0
+      - 0.0
+    - - 0.25
+      - 0.0
+      - 0.0
+    - - 0.35
+      - 0.0
+      - 0.0
+  analysis:
+    anahptspectrum: LctopKpi
+    fd_method: Nb
+    cctype: pp
+    sigmamb: 0.0578
+    inputfonllpred: data/fonll/DmesonLcPredictions_13TeV_y05_FFptDepLHCb_BRpythia8_PDG2020.root
+    dir_general_plots: /data2/${USER}/data/analysis_plots
+    jet_obs:
+      sel_an_binmin:
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 10
+      - 12
+      - 16
+      sel_an_binmax:
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 10
+      - 12
+      - 16
+      - 30
+      bins_ptjet:
+      - 5
+      - 7
+      - 15
+      - 30
+      bins_ptjet_eff:
+      - 2
+      - 5
+      - 7
+      - 15
+      - 30
+      - 50
+      cand_collidx: fIndexHFLCCOLLBASES
+      counter_read_data: fReadCountsWithTVXAndZVertexAndSel8
+      counter_read_mc: fReadCountsWithTVXAndZVertexAndSelMC
+      counter_tvx: fReadCountsWithTVX
+      xsection_inel: 59.4
+      lumi_scale_mc: 408
+      branching_ratio: 0.0624
+      observables:
+        zpar:
+          bins_gen_var:
+          - 0.3
+          - 0.4
+          - 0.5
+          - 0.6
+          - 0.7
+          - 0.8
+          - 0.9
+          - 1.0
+          bins_det_var:
+          - 0.3
+          - 0.4
+          - 0.5
+          - 0.6
+          - 0.7
+          - 0.8
+          - 0.9
+          - 1.0
+          label: '#it{z}_{#parallel}'
+          label_y: (1/#it{N}_{jet ch}) d#it{N}/d#it{z}_{#parallel}
+      n_rebin: 3
+      mass_fit_lim:
+      - 1.9
+      - 2.62
+      bin_width: 0.001
+      pdf_names:
+        pdf_sig: sig
+        pdf_bkg: bkg
+      param_names:
+        mass: m
+        gauss_mean: mean
+        gauss_sigma: sigma_g1
+        double_gauss_sigma: wide
+        fraction_refl: frac_refl
+      fit_levels:
+      - mc
+      - predata
+      - data
+      mass_roofit:
+      - level: mc
+        range:
+        - 2.18
+        - 2.39
+        components:
+          model:
+            fn: RooCrystalBall::sig(m[1., 4.], mean[2.286, 2.27, 2.30], sigma_g1[0.006,
+              0.035], alpha1[0., 2.], n1[0., 100.], alpha1, n1)
+      - level: predata
+        range:
+        - 2.16
+        - 2.39
+        fix_params:
+        - alpha1
+        - n1
+        components:
+          bkg:
+            fn: Polynomial::prebkg(m, {a0[1.], a1[0., -.5, 0.]}, lowestOrder = 0)
+          model:
+            fn: SUM::presum(f_sig[0.,1.]*sig, prebkg)
+      - level: data
+        range:
+        - 2.16
+        - 2.39
+        fix_params:
+        - alpha1
+        - n1
+        - a1
+        components:
+          bkg:
+            fn: Polynomial::bkg(m, {expr('a0 + a2*offset*offset', offset[0., 3., 100.],
+              a0, a2[0., -100., 100.]), expr('a1 - 2.*a2*offset', a1, a2, offset),
+              a2}, lowestOrder = 0)
+          model:
+            fn: SUM::sum(f_sig[0.,1.]*sig, bkg)
+      sidesub:
+      - regions:
+          left:
+          - -5.5
+          - -3.0
+          signal:
+          - -2.0
+          - 2.0
+          right:
+          - 3.0
+          - 5.5
+      mass_fit:
+        func_sig: gaus
+        func_bkg: expo
+        par_constrain:
+          1:
+          - 2.28
+          - 2.29
+          2:
+          - 0.005
+          - 0.03
+        range:
+        - 2.08
+        - 2.48
+      efficiency:
+        index_match: fIndexArrayLCCMCPJETOS_hf
+        extra_cols:
+        - mlBkgScore
+        correction_method: run3
+      unfolding_iterations: 8
+      unfolding_iterations_sel: 5
+      unfolding_prior_flatness: 0.0
+      fd_folding_method: 3d
+      fd_root: /data2/vkucera/powheg/trees_powheg_fd_F05_R05.root
+      fd_parquet: /data2/jklein/powheg/Lc_powheg_fd_F05_R05.parquet
+      proc_type: Jets
+      useperiod:
+      - 1
+      usejetptbinned_deff: false
+      doeff_resp: true
+      unmatched_gen: true
+      latexnamehadron: '#Lambda_{c}^{#plus}'
+      latexnamedecay: pK#pi
+      var_binning2: pt_jet
+      var_binning2_gen: pt_gen_jet
+      latexbin2var: '#it{p}_{T}^{jet ch}'
+      sel_binmin2_reco:
+      - 7.0
+      - 15.0
+      - 30.0
+      sel_binmax2_reco:
+      - 15.0
+      - 30.0
+      - 50.0
+      sel_binmin2_gen:
+      - 7.0
+      - 15.0
+      - 30.0
+      sel_binmax2_gen:
+      - 15.0
+      - 30.0
+      - 50.0
+      var_binningshape: zg_jet
+      var_binningshape_gen: zg_gen_jet
+      var_shape_latex: '#it{z}_{g}'
+      sel_binminshape_reco:
+      - -0.1
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      sel_binmaxshape_reco:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      sel_binminshape_gen:
+      - -0.1
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      sel_binmaxshape_gen:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      sel_closure_frac: 0.2
+      triggerbit: INT7
+      jetsel_gen: abs(y_cand) < 0.5 and abs(z_vtx_gen) < 10 and abs(eta_jet) < 0.5
+      jetsel_sim: abs(y_cand) < 0.5 and abs(eta_jet) < 0.5
+      jetsel_reco: abs(y_cand) < 0.5 and abs(z_vtx_reco) < 10 and abs(eta_jet) < 0.5
+      jetsel_gen_matched_reco: abs(y_cand) < 0.5 and abs(z_vtx_gen) < 10 and abs(eta_gen_jet)
+        < 0.5
+      evtsel: fIsEventReject==0
+      triggersel:
+        data: trigger_hasbit_INT7==1
+        mc: null
+      data:
+        runselection: &id001
+        - null
+        results: &id002
+        - /home/${USER}/mlhep/lcjet/jet_obs/default/default/data/results
+        resultsallp: /home/${USER}/mlhep/lcjet/jet_obs/default/default/data/results_all
+      mc:
+        runselection: &id003
+        - null
+        - null
+        results: &id004
+        - /home/${USER}/mlhep/lcjet/jet_obs/default/default/mc/results
+        resultsallp: /home/${USER}/mlhep/lcjet/jet_obs/default/default/mc/results_all
+      data_proc:
+        runselection: *id001
+        results: *id002
+        resultsallp: /home/${USER}/mlhep/lcjet/jet_obs/default/default/data/results_all
+      mc_proc:
+        runselection: *id003
+        results: *id004
+        resultsallp: /home/${USER}/mlhep/lcjet/jet_obs/default/default/mc/results_all
+      sgnfunc:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      bkgfunc:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      masspeak: 2.286
+      massmin:
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      - 1.66
+      massmax:
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      - 2.06
+      rebin:
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      fix_mean:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      masspeaksec: 2.286
+      SetFixGaussianSigma:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      SetArraySigma:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      sigmaarray:
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      fix_sigmasec:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+      sigmaarraysec:
+      - 0.007497
+      - 0.007497
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      - 0.01
+      use_reflections: true
+      signal_sigma: 2.0
+      sigma_scale: 0.9545
+      sideband_sigma_1_left: 4
+      sideband_sigma_2_left: 9
+      sideband_sigma_1_right: 4
+      sideband_sigma_2_right: 9
+      sidebandleftonly: false
+      niterunfolding: 15
+      niterunfoldingchosen: 4
+      doprior: false
+      domodeldep: false
+      path_modeldep: /home/nzardosh/PYTHIA_Sim/PYTHIA8_Simulations/Plots/D0_Substructure_Simulations_Output.root
+      powheg_path_nonprompt: /data/POWHEG/trees_powheg_fd_central.root
+      powheg_path_prompt: /data/POWHEG/trees_powheg_pr_central.root
+      powheg_prompt_variations_path: /data/POWHEG/trees_powheg_pr_
+      powheg_prompt_variations:
+      - F1_R05
+      - F05_R1
+      - F2_R1
+      - F1_R2
+      - F2_R2
+      - F05_R05
+      - Mhigh
+      - Mlow
+      pythia8_prompt_variations_path: /data/PYTHIA8/trees_pythia8_pr_
+      pythia8_prompt_variations:
+      - default
+      - charm_lo
+      pythia8_prompt_variations_legend:
+      - PYTHIA 8 (Monash)
+      - PYTHIA 8 charm LO
+      variations_db: database_variations_LcJet_pp_jet_obs.yml
+      use_cuts: true
+      cuts:
+      - mlBkgScore < 0.03
+      - mlBkgScore < 0.04
+      - mlBkgScore < 0.07
+      - mlBkgScore < 0.09
+      - mlBkgScore < 0.11
+      - mlBkgScore < 0.15
+      - mlBkgScore < 0.18
+      - mlBkgScore < 0.25
+      - mlBkgScore < 0.35
+      - mlBkgScore < 0.35
+  systematics:
+    probvariation:
+      useperiod:
+      - 0
+      - 0
+      - 1
+      ncutvar: 10
+      maxperccutvar: 0.25
+      cutvarminrange:
+      - 0.8
+      - 0.8
+      - 0.6
+      - 0.3
+      - 0.3
+      cutvarmaxrange:
+      - 0.98
+      - 0.95
+      - 0.95
+      - 0.95
+      - 0.95
+      fixedmean: true
+      fixedsigma: true
+    mcptshape:
+      weights:
+      - 1.0
+      weights_min_pt: 0
+      weights_max_pt: 40
+      weights_bins: 400

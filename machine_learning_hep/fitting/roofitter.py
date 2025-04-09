@@ -19,7 +19,7 @@ from math import sqrt
 import ROOT
 from ROOT import RooAddPdf, RooArgList, RooArgSet, RooFit, RooRealVar, TPaveText
 
-USE_EXTMODEL = True
+USE_EXTMODEL = False
 
 # pylint: disable=too-few-public-methods, too-many-statements
 # (temporary until we add more functionality)

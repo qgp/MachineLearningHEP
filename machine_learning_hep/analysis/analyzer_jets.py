@@ -498,6 +498,7 @@ class AnalyzerJets(Analyzer):
             self.fit_range[level] = [None] * self.nbins
             self.roo_ws[level] = [None] * self.nbins
             self.roo_ws_ptjet[level] = [[None] * self.nbins] * 10
+            self.logger.info("init: %s", self.roo_ws_ptjet[level])
             rfilename = self.n_filemass_mc if "mc" in level else self.n_filemass
             fitcfg = None
             self.logger.debug("Opening file %s.", rfilename)
@@ -584,6 +585,8 @@ class AnalyzerJets(Analyzer):
                             roows,
                             f"roofit/h_mass_fitted{jetptlabel}_{string_range_pthf(range_pthf)}_{level}.png",
                         )
+                        self.logger.info("Roofit completed for %s iptjet %s ipt %d: %s", level, iptjet, ipt, roo_ws)
+                        roo_ws.Print("tv")
                         if roo_res.status() != 0:
                             self.logger.error(
                                 "Roofit failed: %s, ipt: %d, pthf: %g-%g",
@@ -597,16 +600,19 @@ class AnalyzerJets(Analyzer):
                         # TODO: save snapshot per level
                         # roo_ws.saveSnapshot(level, None)
                         if iptjet is not None:
-                            self.logger.debug("Setting roows_ptjet for %s iptjet %s ipt %d", level, iptjet, ipt)
                             self.roows_ptjet[(iptjet, ipt)] = roo_ws
                             self.roo_ws_ptjet[level][iptjet][ipt] = roo_ws
+                            self.logger.info("not none: %s", self.roo_ws_ptjet)
+                            self.logger.info("Setting roows_ptjet for %s iptjet %s ipt %d: %s", level, iptjet, ipt, self.roo_ws_ptjet[level][iptjet][ipt])
                         else:
-                            self.logger.debug("Setting roows for %s iptjet %s ipt %d", level, iptjet, ipt)
                             self.roows[ipt] = roo_ws
                             self.roo_ws[level][ipt] = roo_ws
+                            self.logger.info("Setting roows for %s iptjet %s ipt %d: %s", level, iptjet, ipt, self.roo_ws[level][ipt])
                             for jptjet in range(get_nbins(h, 1)):
                                 self.roows_ptjet[(jptjet, ipt)] = roo_ws.Clone()
                                 self.roo_ws_ptjet[level][jptjet][ipt] = roo_ws.Clone()
+                                self.logger.info("Defaulting roows_ptjet for %s iptjet %s ipt %d: %s", level, jptjet, ipt, self.roo_ws_ptjet[level][jptjet][ipt])
+                                self.logger.info("Defaulted: %s", self.roo_ws_ptjet[level])
                             # TODO: take parameter names from DB
                             if level in ("data", "mc"):
                                 varname_mean = fitcfg.get("var_mean", self.p_param_names["gauss_mean"])
@@ -633,6 +639,14 @@ class AnalyzerJets(Analyzer):
                                 roo_ws.var(varname_m).getMax("fit"),
                             )
                             self.logger.debug("fit range for %s-%i: %s", level, ipt, self.fit_range[level][ipt])
+        print(self.roo_ws_ptjet, flush=True)
+        for mcordata in ["mc", "data"]:
+            for ipt in range(len(self.roo_ws_ptjet[mcordata][0])):
+                for iptjet in range(len(self.roo_ws_ptjet[mcordata])):
+                    self.logger.info("Saved %s-%i-%i: %s", mcordata, iptjet, ipt, self.roo_ws_ptjet[mcordata][iptjet][ipt])
+                    if rws := self.roo_ws_ptjet[mcordata][iptjet][ipt]:
+                        rws.Print("tv")
+                        rws.var("mean").Print()
         for dict_param in self.h_fit_results.values():
             for hist in dict_param.values():
                 self._save_hist(hist, f"roofit/{hist.GetName()}.png")
@@ -719,21 +733,25 @@ class AnalyzerJets(Analyzer):
 
         subtract_sidebands = False
         if mcordata == "data" and self.cfg("sidesub_per_ptjet"):
-            self.logger.info("Subtracting sidebands in pt jet bins")
+            self.logger.info("Subtracting sidebands in pt jet bins using: %s", self.roo_ws_ptjet[mcordata])
             for iptjet in range(get_nbins(fh_subtracted, 0)):
                 if rws := self.roo_ws_ptjet[mcordata][iptjet][ipt]:
-                    f = rws.pdf("bkg").asTF(self.roo_ws[mcordata][ipt].var("m"))
+                    f = rws.pdf("bkg").asTF(rws.var("m"))
                 else:
                     self.logger.error("Could not retrieve roows for %s-%i-%i", mcordata, iptjet, ipt)
                     continue
                 area = {region: f.Integral(*limits[region]) for region in regions}
+                rws.Print()
                 self.logger.info(
-                    "areas for %s-%s: %g, %g, %g",
+                    "areas for %s-%s-%s: %g, %g, %g from %s %s",
                     mcordata,
+                    iptjet,
                     ipt,
                     area["signal"],
                     area["sideband_left"],
                     area["sideband_right"],
+                    rws,
+                    f,
                 )
                 if (area["sideband_left"] + area["sideband_right"]) > 0.0:
                     subtract_sidebands = True
@@ -742,23 +760,27 @@ class AnalyzerJets(Analyzer):
                     for ibin in range(get_nbins(fh_subtracted, 1)):
                         scale_bin(fh_sideband, areaNormFactor, iptjet + 1, ibin + 1)
         else:
-            for region in regions:
-                f = self.roo_ws[mcordata][ipt].pdf("bkg").asTF(self.roo_ws[mcordata][ipt].var("m"))
-                area[region] = f.Integral(*limits[region])
+            self.logger.info("Retrieving RooWorkspace for %s-%i", mcordata, ipt)
+            if (rws := self.roo_ws[mcordata][ipt]) and rws.pdf("bkg"):
+                f = rws.pdf("bkg").asTF(rws.var("m"))
+                for region in regions:
+                    area[region] = f.Integral(*limits[region])
 
-            self.logger.info(
-                "areas for %s-%s: %g, %g, %g",
-                mcordata,
-                ipt,
-                area["signal"],
-                area["sideband_left"],
-                area["sideband_right"],
-            )
+                self.logger.info(
+                    "areas for %s-%s: %g, %g, %g",
+                    mcordata,
+                    ipt,
+                    area["signal"],
+                    area["sideband_left"],
+                    area["sideband_right"],
+                )
 
-            if (area["sideband_left"] + area["sideband_right"]) > 0.0:
-                subtract_sidebands = True
-                areaNormFactor = area["signal"] / (area["sideband_left"] + area["sideband_right"])
-                fh_sideband.Scale(areaNormFactor)
+                if (area["sideband_left"] + area["sideband_right"]) > 0.0:
+                    subtract_sidebands = True
+                    areaNormFactor = area["signal"] / (area["sideband_left"] + area["sideband_right"])
+                    fh_sideband.Scale(areaNormFactor)
+            else:
+                self.logger.error("Could not retrieve roows for %s-%i", mcordata, ipt)
 
         self._save_hist(fh_sideband, f"sideband/h_ptjet{label}_sideband_{string_range_pthf(range_pthf)}_{mcordata}.png")
         if subtract_sidebands:
